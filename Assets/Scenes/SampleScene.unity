@@ -234,17 +234,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startitme: 200
-  object_time:
-  - {fileID: 8660889033835163687, guid: 4f342a883bf80e34ea36bfe0e3fb7ec1, type: 3}
-  - {fileID: 6309619706246533886, guid: cef2add921d8d164ebdf6143331cb059, type: 3}
-  - {fileID: 9199252646931217561, guid: 63baa91721c9dc44c91b383bc9d2e093, type: 3}
-  - {fileID: 2395539292282743273, guid: 8a3215ea693af1e45bc35f7641305c69, type: 3}
-  - {fileID: 7201393665492027425, guid: f99566512e89f434296481a6457cef83, type: 3}
-  - {fileID: 8430025941581017129, guid: d25c7e83edbb7c7468717ac60c659971, type: 3}
-  - {fileID: 2469304866590220779, guid: 2c08db6287686304b81806e4fcc79443, type: 3}
-  - {fileID: 1563028322115711522, guid: 7fbe8f8afac5df946b86fde7e605d2b8, type: 3}
-  - {fileID: 8791572910454884258, guid: e43322e862678e14da84e2de0d9c4424, type: 3}
-  - {fileID: 6462123768504382803, guid: 0323b0bbe7d231647be19071cfb47dff, type: 3}
+  time_box: {fileID: 5492417643510335838, guid: 003f0a25e162b93418a6006c6936834e,
+    type: 3}
+  sprite_time:
+  - {fileID: 1059323943006078164, guid: 657442a5d0cc2fe40866ad3fe736445b, type: 3}
+  - {fileID: 1000400717171853806, guid: 657442a5d0cc2fe40866ad3fe736445b, type: 3}
+  - {fileID: 4782225698711832080, guid: 657442a5d0cc2fe40866ad3fe736445b, type: 3}
+  - {fileID: 400373076458045650, guid: 657442a5d0cc2fe40866ad3fe736445b, type: 3}
+  - {fileID: 6864433630106931362, guid: 657442a5d0cc2fe40866ad3fe736445b, type: 3}
+  - {fileID: 6777906679587619879, guid: 657442a5d0cc2fe40866ad3fe736445b, type: 3}
+  - {fileID: 1774190160740486900, guid: 657442a5d0cc2fe40866ad3fe736445b, type: 3}
+  - {fileID: -5921690877318243837, guid: 657442a5d0cc2fe40866ad3fe736445b, type: 3}
+  - {fileID: 8415101347140301986, guid: 657442a5d0cc2fe40866ad3fe736445b, type: 3}
+  - {fileID: -4874452657913643834, guid: 657442a5d0cc2fe40866ad3fe736445b, type: 3}
 --- !u!4 &822533170
 Transform:
   m_ObjectHideFlags: 0
