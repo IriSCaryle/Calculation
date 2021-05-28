@@ -8,7 +8,11 @@ public class NumberToSprite : MonoBehaviour
 
     [SerializeField] int startitme;
     int nowtime;
-    int beforetime;
+    // int beforetime;
+    int nowsec;
+    int nowmin;
+    int beforesec;
+    int beforemin;
     [SerializeField] GameObject time_box;//これの中のSpriteRendererに画像をつける
     [SerializeField] Sprite[] sprite_time = new Sprite[10];//画像の数字xはUnity上のElement xの数字に合わせてね
 
@@ -28,12 +32,14 @@ public class NumberToSprite : MonoBehaviour
     void Start()
     {
         nowtime = startitme;
+        nowsec = nowtime % 60;
+        nowmin = nowtime / 60;
 
-        for(int i =0;i<Digit (nowtime); i++)
+        for (int i = 0; i < Digit(nowsec) + Digit (nowmin); i++)
         {
             time_image[i] = Instantiate(
                 time_box,
-                new Vector3(i * -1, 0, 0),//位置は適当なので調整お願い
+                new Vector3(i * -0.5f, 0, 0),//位置は適当なので調整お願い
                 Quaternion.identity
                 );
 
@@ -50,22 +56,41 @@ public class NumberToSprite : MonoBehaviour
 
     void CountCange()
     {
-        beforetime = nowtime;
-        nowtime--;
-        if (BTDight(beforetime) != Digit(nowtime)) Destroy(time_image[BTDight(beforetime) - 1]);//使い終えた桁を削除
+        // beforetime = nowtime;
+        beforemin = nowmin;
+        beforesec = nowsec;
+        if (nowsec <= 0)
+        {
+            if (nowmin <= 0) return;
+            if (BTDight(beforemin) + BTDight(beforesec) != Digit(nowmin) + Digit(nowsec))
+            {
+                Destroy(time_image[BTDight(beforemin) + BTDight(beforesec) - 1]);//使い終えた桁を削除
+            }
+            nowmin--;
+            nowsec += 59;
+        }
+        else nowsec--;
+        //nowtime--;
 
         InstSplite();
     }
 
     void InstSplite()
     {
-        if (nowtime < 0) return;
+        if (nowsec+nowmin < 0) return;
 
-        for (int i = 0; i < Digit(nowtime); i++)
+        for(int j =0;j<Digit(nowmin); j++)
         {
-            int num = (int)(nowtime / Mathf.Pow(10, i)) % 10;//iの位の数値を取得
+            int nummin = (int)(nowmin / Mathf.Pow(10, j)) % 10;
 
-            time_spriteR[i].sprite = sprite_time[num];
+            time_spriteR[j + 2].sprite = sprite_time[nummin];
+        }
+
+        for (int i = 0; i < 2; i++)
+        {
+            int numsec = (int)(nowsec / Mathf.Pow(10, i)) % 10;//iの位の数値を取得
+
+            time_spriteR[i].sprite = sprite_time[numsec];
         }
         timecount = 0;
     }
