@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NumberToSprite : MonoBehaviour
 {
     float timecount;
 
+    [SerializeField] GameObject time_object;
     [SerializeField] int startitme;
     int nowtime;
     // int beforetime;
@@ -17,7 +19,9 @@ public class NumberToSprite : MonoBehaviour
     [SerializeField] Sprite[] sprite_time = new Sprite[10];//画像の数字xはUnity上のElement xの数字に合わせてね
 
     GameObject[] time_image = new GameObject [10];//桁数に合わせて画像を保存するとこ
-    SpriteRenderer[] time_spriteR = new SpriteRenderer[10];
+    Image[] time_spriteR = new Image[10];
+
+    public bool countPermit = true;
 
     public int Digit(int num)
     {
@@ -27,6 +31,16 @@ public class NumberToSprite : MonoBehaviour
     public int BTDight(int num)
     {
         return (num == 0) ? 1 : ((int)Mathf.Log10(num) + 1);//beforetimeの桁数を取得
+    }
+
+    public void Stop()
+    {
+        countPermit = false;
+    }
+
+    public void Restart()
+    {
+        countPermit = true;
     }
 
     void Start()
@@ -39,17 +53,19 @@ public class NumberToSprite : MonoBehaviour
         {
             time_image[i] = Instantiate(
                 time_box,
-                new Vector3(i * -0.5f, 0, 0),//位置は適当なので調整お願い
-                Quaternion.identity
+                new Vector3(i * -10, 0, 0),//位置は適当なので調整お願い
+                Quaternion.identity,
+                time_object.transform
                 );
 
-            time_spriteR[i] = time_image[i].GetComponent<SpriteRenderer>();
+            time_spriteR[i] = time_image[i].GetComponent<Image>();
         }
         InstSplite();
     }
 
     void Update()
     {
+        if (!countPermit) return;
         timecount += Time.deltaTime;//1秒ごとに判定
         if (timecount >= 1) CountCange();
     }
