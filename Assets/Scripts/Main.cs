@@ -43,13 +43,17 @@ public class Main : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GenerateBlocks();
     }
 
 
 
     void GenerateBlocks()
     {
+       
+
+        /*
+
         for (int v = 0;v < CalculationBoard.GetLength(0);v++)
         {
             for(int h = 0; h < CalculationBoard.GetLength(1); h++)
@@ -62,11 +66,17 @@ public class Main : MonoBehaviour
                 if(BlocksObjectBoard[v,h].gameObject.tag == "PlayerBlock")
                 {
                     playerBlocksBoard[v,h] = BlocksObjectBoard[v, h].GetComponent<PlayerBlock>();
+
+
+                    playerBlocksBoard[v, h].AssignNum();
+                 
                 }
                 else if (BlocksObjectBoard[v, h].gameObject.tag == "CalcBlock")
                 {
 
                     calcBlocksBoard[v, h] = BlocksObjectBoard[v, h].GetComponent<CalcBlock>();
+
+                    calcBlocksBoard[v, h].AssignColc();
                 } 
 
 
@@ -76,7 +86,7 @@ public class Main : MonoBehaviour
             }
         }
 
-
+        */
 
 
     }
