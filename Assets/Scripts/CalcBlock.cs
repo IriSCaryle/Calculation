@@ -44,11 +44,15 @@ public class CalcBlock : MonoBehaviour
         int CalcRand = Random.Range(0,4);
         int NumRand = Random.Range(-5,6);
 
+        
         if(NumRand == 0)
         {
 
             NumRand += 1;
         }
+
+        Number = NumRand;
+
 
         ChangeNumImage(NumRand.ToString());
 
@@ -185,6 +189,32 @@ public class CalcBlock : MonoBehaviour
         AllCalcImageClear();
 
         calcImages[x].SetAlpha(1);
+
+        switch (x)
+        {
+            case 0:
+
+                calcBlocks = CalcBlocks.add;
+
+                break;
+
+            case 1:
+                calcBlocks = CalcBlocks.sub;
+              
+                break;
+
+            case 2:
+                calcBlocks = CalcBlocks.mult;
+
+                break;
+
+            case 3:
+                calcBlocks = CalcBlocks.div;
+
+                break;
+
+        }
+        
     }
 
     void AllCalcImageClear()
@@ -196,7 +226,39 @@ public class CalcBlock : MonoBehaviour
             
     }
 
+    public void OnDropCalcBlock(int point,CalcBlocks calcType)
+    {
+        switch (calcType)
+        {
+            case CalcBlocks.add:
 
+
+
+                break;
+
+            case CalcBlocks.sub:
+
+
+                break;
+
+            case CalcBlocks.mult:
+
+
+                break;
+
+            case CalcBlocks.div:
+
+
+
+                break;
+
+
+
+        }
+
+
+
+    }
 
 
     // Update is called once per frame

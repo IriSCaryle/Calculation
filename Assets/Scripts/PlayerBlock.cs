@@ -35,6 +35,8 @@ public class PlayerBlock : MonoBehaviour
     {
         int NumRand = Random.Range(1,51);
 
+        Number = NumRand;
+
         ChangeNumImage(NumRand.ToString());
     }
     public void ChangeNumImage(string x)

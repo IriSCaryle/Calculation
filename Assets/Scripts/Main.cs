@@ -79,6 +79,8 @@ public class Main : MonoBehaviour
                         , Quaternion.identity, BlocksParent.transform);
             
                         playerBlocksBoard[v, h] = BlocksObjectBoard[v, h].GetComponent<PlayerBlock>();
+                        playerBlocksBoard[v, h].vertical = v;
+                        playerBlocksBoard[v, h].horizontal =h;
                         playerBlocksBoard[v, h].AssignNum();
 
                         player1block++;
@@ -95,9 +97,12 @@ public class Main : MonoBehaviour
                         , Quaternion.identity, BlocksParent.transform);
 
                         playerBlocksBoard[v, h] = BlocksObjectBoard[v, h].GetComponent<PlayerBlock>();
+                        playerBlocksBoard[v, h].vertical = v;
+                        playerBlocksBoard[v, h].horizontal = h;
                         playerBlocksBoard[v, h].AssignNum();
 
                         player2block++;
+
                         if (player2block >= 12)
                         {
                             randnum.Remove(2);
@@ -110,6 +115,8 @@ public class Main : MonoBehaviour
                         , Quaternion.identity, BlocksParent.transform);
 
                         calcBlocksBoard[v, h] = BlocksObjectBoard[v, h].GetComponent<CalcBlock>();
+                        calcBlocksBoard[v, h].vertical = v;
+                        calcBlocksBoard[v, h].horizontal = h;
                         calcBlocksBoard[v, h].AssignColc();
 
                         calcblock++;
