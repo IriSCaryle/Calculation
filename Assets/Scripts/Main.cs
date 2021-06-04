@@ -50,43 +50,81 @@ public class Main : MonoBehaviour
 
     void GenerateBlocks()
     {
-       
+        int player1block = 0;
 
-        /*
+        int player2block = 0;
+
+        int calcblock = 0;
+
+        List<int> randnum = new List<int>();
+
+        randnum.Add(1);
+        randnum.Add(2);
+        randnum.Add(3);
+
 
         for (int v = 0;v < CalculationBoard.GetLength(0);v++)
         {
             for(int h = 0; h < CalculationBoard.GetLength(1); h++)
             {
-                int rand = Random.Range(1, 4);
+                int rand = Random.Range(0, randnum.Count);
 
-                BlocksObjectBoard[v,h] = Instantiate(Blocks[rand], new Vector2(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * v)
-                , Quaternion.identity, BlocksParent.transform);
+                
 
-                if(BlocksObjectBoard[v,h].gameObject.tag == "PlayerBlock")
+                switch (randnum[rand])
                 {
-                    playerBlocksBoard[v,h] = BlocksObjectBoard[v, h].GetComponent<PlayerBlock>();
+                    case 1:
 
+                        BlocksObjectBoard[v, h] = Instantiate(Blocks[1], new Vector2(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * v)
+                        , Quaternion.identity, BlocksParent.transform);
+            
+                        playerBlocksBoard[v, h] = BlocksObjectBoard[v, h].GetComponent<PlayerBlock>();
+                        playerBlocksBoard[v, h].AssignNum();
 
-                    playerBlocksBoard[v, h].AssignNum();
-                 
-                }
-                else if (BlocksObjectBoard[v, h].gameObject.tag == "CalcBlock")
-                {
+                        player1block++;
 
-                    calcBlocksBoard[v, h] = BlocksObjectBoard[v, h].GetComponent<CalcBlock>();
+                        if (player1block>=12)
+                        {
+                            randnum.Remove(1);
+                        }
+                       
+                        break;
+                    case 2:
 
-                    calcBlocksBoard[v, h].AssignColc();
-                } 
+                        BlocksObjectBoard[v, h] = Instantiate(Blocks[2], new Vector2(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * v)
+                        , Quaternion.identity, BlocksParent.transform);
 
+                        playerBlocksBoard[v, h] = BlocksObjectBoard[v, h].GetComponent<PlayerBlock>();
+                        playerBlocksBoard[v, h].AssignNum();
 
+                        player2block++;
+                        if (player2block >= 12)
+                        {
+                            randnum.Remove(2);
+                        }
+                       
 
+                        break;
+                    case 3:
+                        BlocksObjectBoard[v, h] = Instantiate(Blocks[3], new Vector2(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * v)
+                        , Quaternion.identity, BlocksParent.transform);
 
+                        calcBlocksBoard[v, h] = BlocksObjectBoard[v, h].GetComponent<CalcBlock>();
+                        calcBlocksBoard[v, h].AssignColc();
 
+                        calcblock++;
+
+                        if (calcblock >= 12)
+                        {
+                            randnum.Remove(3);
+                        }
+                        
+                        break;
+                }   
             }
         }
 
-        */
+        
 
 
     }
