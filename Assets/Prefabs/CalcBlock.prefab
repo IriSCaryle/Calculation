@@ -760,7 +760,7 @@ GameObject:
   - component: {fileID: 2095620518143635752}
   m_Layer: 0
   m_Name: CalcBlock
-  m_TagString: Untagged
+  m_TagString: CalcBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
