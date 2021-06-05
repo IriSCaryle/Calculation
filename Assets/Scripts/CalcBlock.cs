@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class CalcBlock : MonoBehaviour
+using UnityEngine.EventSystems;
+public class CalcBlock : MonoBehaviour, IDropHandler
 {
     
    
@@ -22,8 +23,19 @@ public class CalcBlock : MonoBehaviour
     [SerializeField] CanvasRenderer[] Num100 = new CanvasRenderer[10];
     [Header("減算記号イメージ")]
     [SerializeField] CanvasRenderer minusImage;
+    [Header("ハイライト用イメージ")]
+    public Image Highlightimage;
+
+    [Header("スクリプト")]
+    [SerializeField] Main main;
 
     float minusDistance  =22;
+
+    bool up;
+    bool down;
+    bool left;
+    bool right;
+
 
     public enum CalcBlocks
     {
@@ -35,7 +47,7 @@ public class CalcBlock : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+        main = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Main>();
     }
 
 
@@ -260,7 +272,69 @@ public class CalcBlock : MonoBehaviour
 
     }
 
+    public void OnClick()
+    {
+        up = false;
+        down = false;
+        left = false;
+        right = false;
 
+        main.allImagesUnHighlight();
+
+        Highlightimage.color = new Color(0, 0, 0, 0);
+
+        (up, down, left, right) = main.SerchAround_CanCalc(vertical, horizontal,3);
+
+    }
+
+    public void OnClickCancel()
+    {
+
+        main.allImagesHighlight();
+        Highlightimage.color = new Color(0, 0, 0, 0);
+    }
+    public void OnDrag(BaseEventData eventData)
+    {
+
+
+    }
+
+    public void OnDrop(PointerEventData data)//BaseEventData eventData)
+    {
+        /* var data = eventData as PointerEventData;
+
+         if (data != null)
+         {
+             if (data.clickCount > 1)
+             {
+                 Debug.Log(data.clickCount);
+             }
+         }
+        */
+        Debug.Log("Drop検出:" + data.lastPress.name);
+
+        switch (data.lastPress.gameObject.tag)
+        {
+            case "CalcBlock":
+
+                Debug.Log("Dropを検出");
+
+                CalcBlock calcBlock = data.lastPress.gameObject.GetComponent<CalcBlock>();
+
+                main.OnDropReminder(calcBlock.vertical.ToString() + "," + calcBlock.horizontal.ToString(), vertical.ToString() + "," + horizontal.ToString());
+                break;
+
+            case "PlayerBlock":
+
+                Debug.Log("Dropを検出");
+                PlayerBlock playerBlock = data.lastPress.gameObject.GetComponent<PlayerBlock>();
+
+                main.OnDropReminder(playerBlock.vertical.ToString() + "," + playerBlock.horizontal.ToString(), vertical.ToString() + "," + horizontal.ToString());
+
+                break;
+        }
+
+    }
     // Update is called once per frame
     void Update()
     {

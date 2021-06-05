@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class PlayerBlock : MonoBehaviour
+using UnityEngine.EventSystems;
+public class PlayerBlock : MonoBehaviour,IDropHandler
 {
     [Header("プロックの種類")]
     public PlayerBlocks playerblocks;
@@ -20,6 +21,19 @@ public class PlayerBlock : MonoBehaviour
     [SerializeField] CanvasRenderer Max900;//赤文字9 百桁目
     [SerializeField] CanvasRenderer Max090;//赤文字9 十桁目
     [SerializeField] CanvasRenderer Max009;//赤文字9 一桁目
+
+    [Header("ハイライト用イメージ")]
+    public Image Highlightimage;
+
+    [Header("スクリプト")]
+    [SerializeField] Main main;
+
+
+
+    bool up = false;
+    bool down = false;
+    bool left = false;
+    bool right = false;
     public enum PlayerBlocks//誰のブロックかの判別
     {
         Player1 =1,
@@ -28,7 +42,7 @@ public class PlayerBlock : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
+        main = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Main>();
     }
 
     public void AssignNum()
@@ -143,6 +157,68 @@ public class PlayerBlock : MonoBehaviour
         Max900.SetAlpha(1);
 
     }
+
+    public void OnClick()
+    {
+        up = false;
+        down = false;
+        left = false;
+        right = false;
+
+        main.allImagesUnHighlight();
+
+        Highlightimage.color = new Color(0, 0, 0, 0);
+
+        (up,down,left,right)= main.SerchAround_CanCalc(vertical, horizontal,(int)playerblocks);
+
+    }
+
+    public void OnClickCancel()
+    {
+        
+        main.allImagesHighlight();
+        Highlightimage.color = new Color(0, 0, 0, 0);
+    }
+    public void OnDrag(BaseEventData data)
+    {
+
+
+    }
+
+    public void OnDrop(PointerEventData data)//BaseEventData eventData)
+    {
+       /* var data = eventData as PointerEventData;
+
+        if(data != null)
+        {
+            if (data.clickCount > 1)
+            {
+                Debug.Log(data.clickCount);
+            }
+        }
+       */
+
+        switch (data.lastPress.gameObject.tag)
+        {
+            case "CalcBlock":
+                Debug.Log("Dropを検出");
+                Debug.LogError("演算子ブロックのドロップが検出されました");
+                break;
+
+            case "PlayerBlock":
+                Debug.Log("Dropを検出");
+                PlayerBlock playerBlock = data.lastPress.gameObject.GetComponent<PlayerBlock>();
+
+                main.OnDropReminder(playerBlock.vertical.ToString() + "," + playerBlock.horizontal.ToString(), vertical.ToString() + "," + horizontal.ToString());
+
+                break;
+        }
+
+    }
+
+
+
+
 
     // Update is called once per frame
     void Update()

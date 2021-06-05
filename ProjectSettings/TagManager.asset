@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayerBlock
   - CalcBlock
+  - GameManager
   layers:
   - Default
   - TransparentFX
