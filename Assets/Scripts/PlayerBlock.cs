@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-public class PlayerBlock : MonoBehaviour,IDropHandler
+public class PlayerBlock : MonoBehaviour,IDropHandler,IDragHandler,IEndDragHandler
 {
     [Header("プロックの種類")]
     public PlayerBlocks playerblocks;
@@ -21,6 +21,8 @@ public class PlayerBlock : MonoBehaviour,IDropHandler
     [SerializeField] CanvasRenderer Max900;//赤文字9 百桁目
     [SerializeField] CanvasRenderer Max090;//赤文字9 十桁目
     [SerializeField] CanvasRenderer Max009;//赤文字9 一桁目
+    [Header("ターゲットイメージ")]
+    public CanvasRenderer TargetOverray;
 
     [Header("ハイライト用イメージ")]
     public Image Highlightimage;
@@ -28,6 +30,8 @@ public class PlayerBlock : MonoBehaviour,IDropHandler
     [Header("スクリプト")]
     [SerializeField] Main main;
 
+    [Header("初期位置")]
+    public Vector3 InitPos;//初期位置
 
 
     bool up = false;
@@ -43,6 +47,7 @@ public class PlayerBlock : MonoBehaviour,IDropHandler
     void Start()
     {
         main = GameObject.FindGameObjectWithTag("GameManager").GetComponent<Main>();
+        TargetOverray.SetAlpha(0);
     }
 
     public void AssignNum()
@@ -165,11 +170,14 @@ public class PlayerBlock : MonoBehaviour,IDropHandler
         left = false;
         right = false;
 
+       
+
         main.allImagesUnHighlight();
 
         Highlightimage.color = new Color(0, 0, 0, 0);
 
         (up,down,left,right)= main.SerchAround_CanCalc(vertical, horizontal,(int)playerblocks);
+
 
     }
 
@@ -178,36 +186,56 @@ public class PlayerBlock : MonoBehaviour,IDropHandler
         
         main.allImagesHighlight();
         Highlightimage.color = new Color(0, 0, 0, 0);
+        main.ResetTarget(vertical, horizontal);
     }
-    public void OnDrag(BaseEventData data)
+    public void OnDrag(PointerEventData data)
     {
+        Debug.Log("scrollData:" + data.delta);
 
-
-    }
-
-    public void OnDrop(PointerEventData data)//BaseEventData eventData)
-    {
-       /* var data = eventData as PointerEventData;
-
-        if(data != null)
+        //右
+        if (data.delta.x > 10 && right)
         {
-            if (data.clickCount > 1)
-            {
-                Debug.Log(data.clickCount);
-            }
-        }
-       */
 
-        switch (data.lastPress.gameObject.tag)
+            main.ResetTarget(vertical, horizontal);
+            main.SetTarget(vertical, horizontal, "Right");
+
+        }
+        else if (data.delta.x < -10 && left)//左
+        {
+
+            main.ResetTarget(vertical, horizontal);
+            main.SetTarget(vertical, horizontal, "Left");
+        }
+        //上
+        if (data.delta.y > 10 && up)
+        {
+            main.ResetTarget(vertical, horizontal);
+            main.SetTarget(vertical, horizontal, "Up");
+        }
+        else if (data.delta.y < -10 && down)//下
+        {
+
+            main.ResetTarget(vertical, horizontal);
+            main.SetTarget(vertical, horizontal, "Down");
+        }
+
+    }
+
+    public void OnDrop(PointerEventData data)
+    {
+       
+
+        switch (data.pointerDrag.gameObject.tag)
         {
             case "CalcBlock":
                 Debug.Log("Dropを検出");
                 Debug.LogError("演算子ブロックのドロップが検出されました");
+
                 break;
 
             case "PlayerBlock":
                 Debug.Log("Dropを検出");
-                PlayerBlock playerBlock = data.lastPress.gameObject.GetComponent<PlayerBlock>();
+                PlayerBlock playerBlock = data.pointerDrag.gameObject.GetComponent<PlayerBlock>();
 
                 main.OnDropReminder(playerBlock.vertical.ToString() + "," + playerBlock.horizontal.ToString(), vertical.ToString() + "," + horizontal.ToString());
 
@@ -215,7 +243,10 @@ public class PlayerBlock : MonoBehaviour,IDropHandler
         }
 
     }
-
+    public void OnEndDrag(PointerEventData data)
+    {
+        main.ResetTarget(vertical, horizontal);
+    }
 
 
 

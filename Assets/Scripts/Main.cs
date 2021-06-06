@@ -87,7 +87,7 @@ public class Main : MonoBehaviour
 
 
                         CalculationBoard[v, h] = 1;
-                        BlocksObjectBoard[v, h] = Instantiate(Blocks[1], new Vector2(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * v)
+                        BlocksObjectBoard[v, h] = Instantiate(Blocks[1], new Vector3(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * v,0)
                         , Quaternion.identity, BlocksParent.transform);
 
                         playerBlocksBoard[v, h] = BlocksObjectBoard[v, h].GetComponent<PlayerBlock>();
@@ -106,7 +106,7 @@ public class Main : MonoBehaviour
                         break;
                     case 2:
                         CalculationBoard[v, h] = 2;
-                        BlocksObjectBoard[v, h] = Instantiate(Blocks[2], new Vector2(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * v)
+                        BlocksObjectBoard[v, h] = Instantiate(Blocks[2], new Vector3(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * v,0)
                         , Quaternion.identity, BlocksParent.transform);
 
                         playerBlocksBoard[v, h] = BlocksObjectBoard[v, h].GetComponent<PlayerBlock>();
@@ -126,7 +126,7 @@ public class Main : MonoBehaviour
                         break;
                     case 3:
                         CalculationBoard[v, h] = 3;
-                        BlocksObjectBoard[v, h] = Instantiate(Blocks[3], new Vector2(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * v)
+                        BlocksObjectBoard[v, h] = Instantiate(Blocks[3], new Vector3(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * v,0)
                         , Quaternion.identity, BlocksParent.transform);
 
                         calcBlocksBoard[v, h] = BlocksObjectBoard[v, h].GetComponent<CalcBlock>();
@@ -489,6 +489,190 @@ public class Main : MonoBehaviour
     {
         DragDroptext.text = "Drag&Dropが検出:" + drag + "to" + drop;
 
+    }
+
+
+    public void ResetTarget(int v,int h)
+    {
+        
+        //上
+        if (v > 0)
+        {
+            switch (CalculationBoard[v - 1, h])
+            {
+                case 0:
+
+                    Debug.LogError("何も入っていない座標があります");
+
+                    break;
+                case 1:
+
+                    playerBlocksBoard[v - 1, h].TargetOverray.SetAlpha(0);
+
+                    break;
+                case 2:
+
+                    playerBlocksBoard[v - 1, h].TargetOverray.SetAlpha(0);
+                    break;
+                case 3:
+                    calcBlocksBoard[v - 1, h].TargetOverray.SetAlpha(0);
+
+                    break;
+                default:
+
+                    Debug.LogError("例外が発生しました確認してください:" + v + "," + h);
+
+                    break;
+
+            }
+        }
+        //下
+        if (v < 5)
+        {
+            switch (CalculationBoard[v + 1, h])
+            {
+                case 0:
+
+                    Debug.LogError("何も入っていない座標があります");
+
+                    break;
+                case 1:
+
+                    playerBlocksBoard[v + 1, h].TargetOverray.SetAlpha(0);
+
+                    break;
+                case 2:
+
+                    playerBlocksBoard[v + 1, h].TargetOverray.SetAlpha(0);
+
+                    break;
+                case 3:
+
+                    calcBlocksBoard[v + 1, h].TargetOverray.SetAlpha(0);
+                    break;
+                default:
+
+                    Debug.LogError("例外が発生しました確認してください:" + v + "," +h);
+
+                    break;
+
+            }
+        }
+        //左
+        if (h > 0)
+        {
+            switch (CalculationBoard[v, h - 1])
+            {
+                case 0:
+
+                    Debug.LogError("何も入っていない座標があります");
+
+                    break;
+                case 1:
+
+                    playerBlocksBoard[v , h-1].TargetOverray.SetAlpha(0);
+
+                    break;
+                case 2:
+
+                    playerBlocksBoard[v , h-1].TargetOverray.SetAlpha(0);
+
+                    break;
+                case 3:
+
+                    calcBlocksBoard[v , h-1].TargetOverray.SetAlpha(0);
+                    break;
+                default:
+
+                    Debug.LogError("例外が発生しました確認してください:" + v + "," + h);
+
+                    break;
+
+            }
+        }
+        //右
+        if (h < 5)
+        {
+            switch (CalculationBoard[v, h + 1])
+            {
+                case 0:
+
+                    Debug.LogError("何も入っていない座標があります");
+
+                    break;
+                case 1:
+
+                    playerBlocksBoard[v, h + 1].TargetOverray.SetAlpha(0);
+
+                    break;
+                case 2:
+
+                    playerBlocksBoard[v, h + 1].TargetOverray.SetAlpha(0);
+
+                    break;
+                case 3:
+
+                    calcBlocksBoard[v, h + 1].TargetOverray.SetAlpha(0);
+                    break;
+                default:
+
+                    Debug.LogError("例外が発生しました確認してください:" + v + "," + h);
+
+                    break;
+
+            }
+        }
+
+
+
+    }
+
+    public void SetTarget(int v ,int h,string vector)
+    {
+        switch (vector)
+        {
+            case "Up":
+                if (CalculationBoard[v -1, h] ==2 || CalculationBoard[v-1, h] ==1)
+                {
+                    playerBlocksBoard[v-1, h].TargetOverray.SetAlpha(1);
+
+                }else
+                {
+                    calcBlocksBoard[v - 1, h].TargetOverray.SetAlpha(1);
+                }
+                break;
+            case "Down":
+                if (CalculationBoard[v + 1, h] == 2 || CalculationBoard[v + 1, h] == 1)
+                {
+                    playerBlocksBoard[v + 1, h].TargetOverray.SetAlpha(1);
+                }
+                else
+                {
+                    calcBlocksBoard[v + 1, h].TargetOverray.SetAlpha(1);
+                }
+                break;
+            case "Left":
+                if (CalculationBoard[v, h-1] == 2 || CalculationBoard[v, h-1] == 1)
+                {
+                    playerBlocksBoard[v, h-1].TargetOverray.SetAlpha(1);
+                }
+                else
+                {
+                    calcBlocksBoard[v, h-1].TargetOverray.SetAlpha(1);
+                }
+                break;
+            case "Right":
+                if (CalculationBoard[v, h + 1] == 2 || CalculationBoard[v, h + 1] == 1)
+                {
+                    playerBlocksBoard[v, h + 1].TargetOverray.SetAlpha(1);
+                }
+                else
+                {
+                    calcBlocksBoard[v, h + 1].TargetOverray.SetAlpha(1);
+                }
+                break;
+
+        }
     }
 
 
