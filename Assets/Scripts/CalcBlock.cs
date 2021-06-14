@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-public class CalcBlock : MonoBehaviour, IDropHandler ,IDragHandler,IEndDragHandler
+public class CalcBlock : MonoBehaviour, IDropHandler ,IDragHandler,IEndDragHandler,IPointerDownHandler,IPointerUpHandler
 {
     
    
@@ -244,41 +244,8 @@ public class CalcBlock : MonoBehaviour, IDropHandler ,IDragHandler,IEndDragHandl
             
     }
 
-    public void OnDropCalcBlock(int point,CalcBlocks calcType)
-    {
-        switch (calcType)
-        {
-            case CalcBlocks.add:
 
-
-
-                break;
-
-            case CalcBlocks.sub:
-
-
-                break;
-
-            case CalcBlocks.mult:
-
-
-                break;
-
-            case CalcBlocks.div:
-
-
-
-                break;
-
-
-
-        }
-
-
-
-    }
-
-    public void OnClick()
+    public void OnPointerDown(PointerEventData data)
     {
         up = false;
         down = false;
@@ -293,7 +260,7 @@ public class CalcBlock : MonoBehaviour, IDropHandler ,IDragHandler,IEndDragHandl
 
     }
 
-    public void OnClickCancel()
+    public void OnPointerUp(PointerEventData data)
     {
        
         main.allImagesHighlight();
@@ -346,7 +313,7 @@ public class CalcBlock : MonoBehaviour, IDropHandler ,IDragHandler,IEndDragHandl
 
                 CalcBlock calcBlock = data.pointerDrag.GetComponent<CalcBlock>();
 
-                main.OnDropReminder(calcBlock.vertical.ToString() + "," + calcBlock.horizontal.ToString(), vertical.ToString() + "," + horizontal.ToString());
+                main.OnDropReminder(calcBlock.vertical,calcBlock.horizontal,vertical, horizontal);
 
                 break;
 
@@ -356,7 +323,7 @@ public class CalcBlock : MonoBehaviour, IDropHandler ,IDragHandler,IEndDragHandl
 
                 PlayerBlock playerBlock = data.pointerDrag.GetComponent<PlayerBlock>();
 
-                main.OnDropReminder(playerBlock.vertical.ToString() + "," + playerBlock.horizontal.ToString(), vertical.ToString() + "," + horizontal.ToString());
+                main.OnDropReminder(playerBlock.vertical,playerBlock.horizontal, vertical, horizontal);
 
                 break;
         }

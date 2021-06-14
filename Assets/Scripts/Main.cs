@@ -57,7 +57,7 @@ public class Main : MonoBehaviour
     }
 
 
-
+    //ブロックの生成
     void GenerateBlocks()
     {
         int player1block = 0;
@@ -151,14 +151,11 @@ public class Main : MonoBehaviour
 
 
     }
-
+    //現在のボードの状況をコンソールに表示する
     public void NowBoard()
     {
 
         string board = "";
-
-
-
         for (int v = 0; v < CalculationBoard.GetLength(0); v++)
         {
             for (int h = 0; h < CalculationBoard.GetLength(1); h++)
@@ -172,12 +169,10 @@ public class Main : MonoBehaviour
             board = board + "\n";
 
         }
-
-
         Debug.Log(board);
     }
 
-
+    //計算可能なブロックを検索する
     public (bool Up, bool Down, bool Left, bool Right) SerchAround_CanCalc(int vertical, int horizontal, int type)
     {
         bool up = false;
@@ -461,7 +456,7 @@ public class Main : MonoBehaviour
         return (up, down, left, right);
 
     }
-    
+    //ドラッグ＆ドロップ関連
     public void allImagesUnHighlight()
     {
 
@@ -484,14 +479,134 @@ public class Main : MonoBehaviour
             }
         }
     }
-
-    public void OnDropReminder(string drag,string drop)
+    public void OnDropReminder(int drag_v,int drag_h,int drop_v,int drop_h)
     {
-        DragDroptext.text = "Drag&Dropが検出:" + drag + "to" + drop;
+        if(drag_v> drop_v)//上
+        {
+            DragDroptext.text = "Drag&Dropが検出 上方向:" + drag_v + "," + drag_h + "to" + drop_v + "," + drop_h;
+            CalculatingBlocks(drag_v, drag_h, drop_v, drop_h);
+        }
+        else if(drag_v<drop_v)//下
+        {
+            DragDroptext.text = "Drag&Dropが検出 下方向:" + drag_v + "," + drag_h + "to" + drop_v + "," + drop_h;
+            CalculatingBlocks(drag_v, drag_h, drop_v, drop_h);
+        }
+        else if (drag_h > drop_h)//左
+        {
+            DragDroptext.text = "Drag&Dropが検出 左方向:" + drag_v + "," + drag_h + "to" + drop_v + "," + drop_h;
+            CalculatingBlocks(drag_v, drag_h, drop_v, drop_h);
+        }
+        else if(drag_h<drop_h)//右
+        {
+            DragDroptext.text = "Drag&Dropが検出 右方向:" + drag_v + "," + drag_h + "to" + drop_v + "," + drop_h;
+            CalculatingBlocks(drag_v, drag_h, drop_v, drop_h);
+        }
 
     }
+    
+    //計算関連
+    public void CalculatingBlocks(int drag_v,int drag_h,int drop_v,int drop_h)
+    {
+        switch (BlocksObjectBoard[drag_v, drag_h].tag)
+        {
+            case "CalcBlock":
+                if(BlocksObjectBoard[drop_v,drop_h].tag == "CalcBlock")
+                {
+                    CalcBlocksCalculating(drag_v,drag_h,drop_v,drop_h);
+                }
+                else
+                {
+                    Debug.Log("ドラッグ＆ドロップの順番が逆です、必ずプレイヤーブロックをドラッグしてください");
+                }
+                break;
+            case "PlayerBlock":
+                if(BlocksObjectBoard[drop_v,drop_h].tag == "CalcBlock")
+                {
+                    PlayerAndCalcBlocksCalculating(drag_v,drag_h,drop_v,drop_h);
+                }
+                else
+                {
+                    Debug.Log("プレイヤーブロック同士では計算できません");
+                }
+                break;
 
 
+        }
+    }
+    void CalcBlocksCalculating(int drag_v,int drag_h,int drop_v,int drop_h)
+    {
+        int calcBlock1Number = 0;
+        int calcBlock2Number = 0;
+        int Operator1Number = 0;
+        int Operator2Number = 0;
+
+        int resultNumber = 0;
+
+        calcBlock1Number = calcBlocksBoard[drag_v, drag_h].Number;
+
+        calcBlock2Number = calcBlocksBoard[drop_v, drop_h].Number;
+
+        Operator1Number = (int)calcBlocksBoard[drag_v, drag_h].calcBlocks;
+
+        Operator2Number = (int)calcBlocksBoard[drop_v, drop_h].calcBlocks;
+
+        if(Operator1Number > Operator2Number)
+        {
+
+        }else if(Operator2Number > Operator1Number)
+        {
+
+        }
+        else
+        {
+
+        }
+    }
+
+    void PlayerAndCalcBlocksCalculating(int drag_v, int drag_h, int drop_v, int drop_h)
+    {
+        int playerBlockNumber = 0;
+        int calcBlockNumber = 0;
+        int OperatorNumber = 0;
+        int playerNumber = 0;
+
+        int result=0;
+
+
+        playerBlockNumber = playerBlocksBoard[drag_v, drag_h].Number;
+
+        playerNumber = (int)playerBlocksBoard[drag_v, drag_h].playerblocks;
+
+        calcBlockNumber = calcBlocksBoard[drop_v, drop_h].Number;
+
+        OperatorNumber = (int)calcBlocksBoard[drop_v, drop_h].calcBlocks;
+
+        switch (OperatorNumber)//演算子
+        {
+            case 0://add
+
+                result = playerBlockNumber + calcBlockNumber;
+                Debug.Log("足し算:" + result);
+                break;
+            case 1://sub
+
+                result = playerBlockNumber - calcBlockNumber;
+                Debug.Log("引き算:" + result);
+                break;
+            case 2://mult
+
+                result = playerBlockNumber * calcBlockNumber;
+                Debug.Log("掛け算:" + result);
+                break;
+            case 3://div
+
+                result = playerBlockNumber / calcBlockNumber;
+                Debug.Log("割り算:" + result);
+                break;
+        }
+    }
+    
+    //ターゲットUI関連
     public void ResetTarget(int v,int h)
     {
         

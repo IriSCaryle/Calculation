@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-public class PlayerBlock : MonoBehaviour,IDropHandler,IDragHandler,IEndDragHandler
+public class PlayerBlock : MonoBehaviour,IDropHandler,IDragHandler,IEndDragHandler,IPointerDownHandler,IPointerUpHandler
 {
     [Header("プロックの種類")]
     public PlayerBlocks playerblocks;
@@ -163,7 +163,7 @@ public class PlayerBlock : MonoBehaviour,IDropHandler,IDragHandler,IEndDragHandl
 
     }
 
-    public void OnClick()
+    public void OnPointerDown(PointerEventData data)
     {
         up = false;
         down = false;
@@ -181,7 +181,7 @@ public class PlayerBlock : MonoBehaviour,IDropHandler,IDragHandler,IEndDragHandl
 
     }
 
-    public void OnClickCancel()
+    public void OnPointerUp(PointerEventData data)
     {
         
         main.allImagesHighlight();
@@ -237,7 +237,7 @@ public class PlayerBlock : MonoBehaviour,IDropHandler,IDragHandler,IEndDragHandl
                 Debug.Log("Dropを検出");
                 PlayerBlock playerBlock = data.pointerDrag.gameObject.GetComponent<PlayerBlock>();
 
-                main.OnDropReminder(playerBlock.vertical.ToString() + "," + playerBlock.horizontal.ToString(), vertical.ToString() + "," + horizontal.ToString());
+                main.OnDropReminder(playerBlock.vertical,playerBlock.horizontal, vertical, horizontal);
 
                 break;
         }
