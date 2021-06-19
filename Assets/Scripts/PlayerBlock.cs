@@ -154,7 +154,7 @@ public class PlayerBlock : MonoBehaviour,IDropHandler,IDragHandler,IEndDragHandl
         Max900.SetAlpha(0);
     }
 
-    void NumMax()
+    public void NumMax()
     {
         AllImageClear();
         Max009.SetAlpha(1);

@@ -269,7 +269,7 @@ public class CalcBlock : MonoBehaviour, IDropHandler ,IDragHandler,IEndDragHandl
     }
     public void OnDrag(PointerEventData data)
     {
-        Debug.Log("scrollData:" + data.delta);
+       
         //右
         if (data.delta.x >10 &&right)
         {
