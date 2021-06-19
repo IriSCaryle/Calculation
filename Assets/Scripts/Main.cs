@@ -3,19 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class Main : MonoBehaviour
-{
+{  
+    //ブロック関連
+    [Header("ブロックの間隔")]
     [SerializeField] float Block_distance;
-
+    [Header("0,0のブロックの位置")]
     [SerializeField] GameObject GenerateInitPos;
-
+    [Header("ブロックの種類")]
     [SerializeField] GameObject[] Blocks = new GameObject[4];
-
-
+    [Header("ブロックが生成される親")]
     [SerializeField] GameObject BlocksParent;
-
+    [Header("デバッグ用テキスト")]
     [SerializeField] Text DragDroptext;
 
-    int[,] CalculationBoard = new int[6, 6]
+    //スコア関連
+    [Header("プレイヤースコア(数字)")]
+    [SerializeField] int Player1Score;
+    [SerializeField] int Player2Score;
+    [Header("プレイヤースコア(スクリプト)")]
+    [SerializeField] ScoreManager player1scoreSc;
+    [SerializeField] ScoreManager player2scoreSc;
+
+    //各ボード
+    int[,] CalculationBoard = new int[6, 6] //ブロックの種類のボード(int)
     {
         { 0,0,0,0,0,0 },
         { 0,0,0,0,0,0 },
@@ -26,19 +36,15 @@ public class Main : MonoBehaviour
     };
 
 
-    GameObject[,] BlocksObjectBoard = new GameObject[6, 6];
+    GameObject[,] BlocksObjectBoard = new GameObject[6, 6];//ブロックオブジェクトのボード
 
-    Image[,] BlocksImages = new Image[6, 6];
+    Image[,] BlocksImages = new Image[6, 6];//各オブジェクトのImageComponentのボード
 
-    PlayerBlock[,] playerBlocksBoard = new PlayerBlock[6, 6];
+    PlayerBlock[,] playerBlocksBoard = new PlayerBlock[6, 6];//プレイヤーブロックスクリプトのボード
 
-    CalcBlock[,] calcBlocksBoard = new CalcBlock[6, 6];
+    CalcBlock[,] calcBlocksBoard = new CalcBlock[6, 6];//演算子ブロックスクリプトのボード
 
-    [SerializeField] int Player1Score;
-    [SerializeField] int Player2Score;
-
-
-    public enum Turn
+    public enum Turn//ターン
     {
         Player1 = 1,
         Player2 = 2,
@@ -61,8 +67,8 @@ public class Main : MonoBehaviour
     }
 
 
-    //ブロックの生成
-    void GenerateBlocks()
+   
+    void GenerateBlocks() //ブロックの生成
     {
         int player1block = 0;
 
@@ -155,8 +161,8 @@ public class Main : MonoBehaviour
 
 
     }
-    //現在のボードの状況をコンソールに表示する
-    public void NowBoard()
+   
+    public void NowBoard()//現在のボードの状況をコンソールに表示する
     {
 
         string board = "";
@@ -175,9 +181,7 @@ public class Main : MonoBehaviour
         }
         Debug.Log(board);
     }
-
-    //計算可能なブロックを検索する
-    public (bool Up, bool Down, bool Left, bool Right) SerchAround_CanCalc(int vertical, int horizontal, int type)
+    public (bool Up, bool Down, bool Left, bool Right) SerchAround_CanCalc(int vertical, int horizontal, int type)//計算可能なブロックを検索する
     {
         bool up = false;
         bool down = false;
@@ -461,7 +465,7 @@ public class Main : MonoBehaviour
 
     }
     //ドラッグ＆ドロップ関連
-    public void allImagesUnHighlight()
+    public void allImagesUnHighlight()//全てのブロックを暗転させる 
     {
 
         for(int v = 0; v < BlocksImages.GetLength(0); v++)
@@ -472,7 +476,7 @@ public class Main : MonoBehaviour
             }
         }
     }
-    public void allImagesHighlight()
+    public void allImagesHighlight()//全てのブロック明転させる
     {
 
         for (int v = 0; v < BlocksImages.GetLength(0); v++)
@@ -483,7 +487,7 @@ public class Main : MonoBehaviour
             }
         }
     }
-    public void OnDropReminder(int drag_v,int drag_h,int drop_v,int drop_h)
+    public void OnDropReminder(int drag_v,int drag_h,int drop_v,int drop_h)//ドロップされたことをデバックテキストに通知し計算する関数に受け渡す
     {
         if(drag_v> drop_v)//上
         {
@@ -509,7 +513,7 @@ public class Main : MonoBehaviour
     }
     
     //計算関連
-    public void CalculatingBlocks(int drag_v,int drag_h,int drop_v,int drop_h,string vector)
+    public void CalculatingBlocks(int drag_v,int drag_h,int drop_v,int drop_h,string vector)//ドラックしたオブジェクトとドロップしたオブジェクトの組み合わせを判別し別々の関数に渡す
     {
         switch (BlocksObjectBoard[drag_v, drag_h].tag)
         {
@@ -533,11 +537,9 @@ public class Main : MonoBehaviour
                     Debug.Log("プレイヤーブロック同士では計算できません");
                 }
                 break;
-
-
         }
     }
-    void CalcBlocksCalculating(int drag_v,int drag_h,int drop_v,int drop_h,string vec)
+    void CalcBlocksCalculating(int drag_v,int drag_h,int drop_v,int drop_h,string vec)//演算子同士の計算
     {
         int calcBlock1Number = 0;
         int calcBlock2Number = 0;
@@ -607,7 +609,7 @@ public class Main : MonoBehaviour
 
     }
 
-    void PlayerAndCalcBlocksCalculating(int drag_v, int drag_h, int drop_v, int drop_h,string vec)
+    void PlayerAndCalcBlocksCalculating(int drag_v, int drag_h, int drop_v, int drop_h,string vec)//プレイヤーブロックと演算子同士の計算
     {
         int playerBlockNumber = 0;
         int calcBlockNumber = 0;
@@ -634,40 +636,55 @@ public class Main : MonoBehaviour
             case 0://add
 
                 result = playerBlockNumber + calcBlockNumber;
-                Debug.Log("足し算:" + result);
+                Debug.Log("足し算:" + playerBlockNumber+"+" + calcBlockNumber +"=" +result);
                 AddScore((int)player.playerblocks,result);
                 
                 break;
             case 1://sub
 
                 result = playerBlockNumber - calcBlockNumber;
-                Debug.Log("引き算:" + result);
+                Debug.Log("引き算:" + playerBlockNumber + "-" + calcBlockNumber + "=" + result);
                 AddScore((int)player.playerblocks, result);
 
                 break;
             case 2://mult
 
                 result = playerBlockNumber * calcBlockNumber;
-                Debug.Log("掛け算:" + result);
+                Debug.Log("掛け算:" + playerBlockNumber + "*" + calcBlockNumber + "=" + result);
                 AddScore((int)player.playerblocks, result);
 
                 break;
             case 3://div
 
                 result = playerBlockNumber / calcBlockNumber;
-                Debug.Log("割り算:" + result);
+                Debug.Log("割り算:" + playerBlockNumber + "/" + calcBlockNumber + "=" + result);
                 AddScore((int)player.playerblocks, result);
 
                 break;
         }
     }
 
-    void AddScore(int playerNum,int score)
+    void AddScore(int playerNum,int score)//対応したプレイヤーにスコアを合算する
     {
+        switch (playerNum)
+        {
+            case 1://player1
+                score += Player1Score;
+                Player1Score = score;
+                player1scoreSc.AddScore(score);
+                break;
 
+            case 2://player2
+                score += Player2Score;
+                Player2Score = score;
+                player2scoreSc.AddScore(score);
+                break;
+        }
     }
     
-    void CalcBlockReInstallBoard(int drag_v,int drag_h,string vec)
+
+    /*-演算子同士の計算のブロック処理-*/
+    void CalcBlockReInstallBoard(int drag_v,int drag_h,string vec)//ブロックを動かした向きにブロックを詰める
     {
         Vector3 initpos = BlocksObjectBoard[drag_v, drag_h].transform.position;
 
@@ -865,7 +882,7 @@ public class Main : MonoBehaviour
     }
 
 
-    void AddBlockBoard(string vec, int v, int h,int type)
+    void AddBlockBoard(string vec, int v, int h,int type)//空いたマスにブロックを生成する
     {
         switch (vec)
         {
@@ -1073,12 +1090,416 @@ public class Main : MonoBehaviour
         }
     }
 
+    /*-プレイヤーブロックと演算子同士の計算のブロック処理-*/
+    void PlayerCalcBlockReInstallBoard(int drag_v, int drag_h, string vec)//ブロックを動かした向きにブロックを詰める
+    {
+        Vector3 initpos = BlocksObjectBoard[drag_v, drag_h].transform.position;
 
+        int objecttype = 0;
+
+        if (BlocksObjectBoard[drag_v, drag_h].tag == "PlayerBlock")//削除されるオブジェクトの種類を判別
+        {
+            objecttype = 1;
+            PlayerBlock _player = BlocksObjectBoard[drag_v, drag_h].GetComponent<PlayerBlock>();
+            if ((int)_player.playerblocks == 2)
+            {
+                objecttype = 2;
+            }
+        }
+        else
+        {
+            objecttype = 3;
+        }
+
+        switch (vec)//ドラッグした向きに合わせ列を積める
+        {
+            case "up":
+                Debug.Log(CalculationBoard.GetLength(0) - drag_v + "個選択");
+                Debug.Log(BlocksObjectBoard[drag_v, drag_h].transform.position);
+
+                Destroy(BlocksObjectBoard[drag_v, drag_h]);
+                for (int v = 1; v < CalculationBoard.GetLength(0) - drag_v; v++)
+                {
+
+                    if (CalculationBoard[drag_v + v, drag_h] == 1 || CalculationBoard[drag_v + v, drag_h] == 2)
+                    {
+
+                        Debug.Log((drag_v + v) + "," + drag_h + "を選択中");
+                        PlayerBlock playerBlock = playerBlocksBoard[drag_v + v, drag_h].GetComponent<PlayerBlock>();//内部情報の変更
+                        playerBlock.vertical = playerBlock.vertical - 1;//内部スクリプトの座標変数変更
+                        BlocksObjectBoard[(drag_v + v) - 1, drag_h] = BlocksObjectBoard[drag_v + v, drag_h];
+                        CalculationBoard[(drag_v + v) - 1, drag_h] = CalculationBoard[drag_v + v, drag_h];
+                        BlocksObjectBoard[(drag_v + v) - 1, drag_h].transform.position = new Vector3(GenerateInitPos.transform.position.x + Block_distance * drag_h, initpos.y - Block_distance * (v - 1), 0);//画面座標変更
+
+                        Debug.Log("移動完了");
+                    }
+                    else if (CalculationBoard[drag_v + v, drag_h] == 3)
+                    {
+
+                        Debug.Log((drag_v + v) + "," + drag_h + "を選択中");
+                        CalcBlock calcBlock = calcBlocksBoard[drag_v + v, drag_h].GetComponent<CalcBlock>(); //内部情報の変更
+                        calcBlock.vertical = calcBlock.vertical - 1;//内部スクリプトの座標変数変更
+                        BlocksObjectBoard[(drag_v + v) - 1, drag_h] = BlocksObjectBoard[drag_v + v, drag_h];
+                        CalculationBoard[(drag_v + v) - 1, drag_h] = CalculationBoard[drag_v + v, drag_h];
+                        BlocksObjectBoard[(drag_v + v) - 1, drag_h].transform.position = new Vector3(GenerateInitPos.transform.position.x + Block_distance * drag_h, initpos.y - Block_distance * (v - 1), 0);//画面座標変更
+
+                        Debug.Log("移動完了");
+                    }
+                    else
+                    {
+                        Debug.Log("マスに何も入っていません");
+                    }
+
+                }
+
+                BlocksObjectBoard[CalculationBoard.GetLength(0) - 1, drag_h] = null;//空いたマスにnullを入れます
+
+                AddBlockBoard("up", drag_v, drag_h, objecttype);
+
+                break;
+            case "down":
+                Debug.Log(drag_v + "個選択");
+
+                Destroy(BlocksObjectBoard[drag_v, drag_h]);
+                for (int v = 1; v <= drag_v; v++)
+                {
+
+                    if (CalculationBoard[drag_v - v, drag_h] == 1 || CalculationBoard[drag_v - v, drag_h] == 2)
+                    {
+
+                        Debug.Log((drag_v - v) + "," + drag_h + "を選択中");
+                        PlayerBlock playerBlock = playerBlocksBoard[drag_v - v, drag_h].GetComponent<PlayerBlock>();//内部情報の変更
+                        playerBlock.vertical = playerBlock.vertical + 1;//内部スクリプトの座標変数変更
+                        BlocksObjectBoard[(drag_v - v) + 1, drag_h] = BlocksObjectBoard[drag_v - v, drag_h];
+                        CalculationBoard[(drag_v - v) + 1, drag_h] = CalculationBoard[drag_v - v, drag_h];
+                        BlocksObjectBoard[(drag_v - v) + 1, drag_h].transform.position = new Vector3(GenerateInitPos.transform.position.x + Block_distance * drag_h, initpos.y - Block_distance * (1 - v), 0);//画面座標変更
+
+                        Debug.Log("移動完了");
+                    }
+                    else if (CalculationBoard[drag_v - v, drag_h] == 3)
+                    {
+
+                        Debug.Log((drag_v - v) + "," + drag_h + "を選択中");
+                        CalcBlock calcBlock = calcBlocksBoard[drag_v - v, drag_h].GetComponent<CalcBlock>();
+
+                        //内部情報の変更
+                        calcBlock.vertical = calcBlock.vertical + 1;//内部スクリプトの座標変数変更
+                        BlocksObjectBoard[(drag_v - v) + 1, drag_h] = BlocksObjectBoard[drag_v - v, drag_h];
+                        CalculationBoard[(drag_v - v) + 1, drag_h] = CalculationBoard[drag_v - v, drag_h];
+                        BlocksObjectBoard[(drag_v - v) + 1, drag_h].transform.position = new Vector3(GenerateInitPos.transform.position.x + Block_distance * drag_h, initpos.y - Block_distance * (1 - v), 0);//画面座標変更
+
+                        Debug.Log("移動完了");
+                    }
+                    else
+                    {
+                        Debug.Log("マスに何も入っていません");
+                    }
+
+                }
+
+                BlocksObjectBoard[0, drag_h] = null;
+
+                AddBlockBoard("down", drag_v, drag_h, objecttype);
+
+                break;
+            case "left":
+
+                Debug.Log(CalculationBoard.GetLength(1) - drag_h + "個選択");
+                Destroy(BlocksObjectBoard[drag_v, drag_h]);
+                for (int h = 1; h < CalculationBoard.GetLength(1) - drag_h; h++)
+                {
+                    if (CalculationBoard[drag_v, drag_h + h] == 1 || CalculationBoard[drag_v, drag_h + h] == 2)
+                    {
+
+                        Debug.Log(drag_v + "," + (drag_h + h) + "を選択中");
+                        PlayerBlock playerBlock = playerBlocksBoard[drag_v, drag_h + h].GetComponent<PlayerBlock>();//内部情報の変更
+                        playerBlock.horizontal = playerBlock.horizontal - 1;//内部スクリプトの座標変数変更
+                        BlocksObjectBoard[drag_v, (drag_h + h) - 1] = BlocksObjectBoard[drag_v, drag_h + h];
+                        CalculationBoard[drag_v, (drag_h + h) - 1] = CalculationBoard[drag_v, drag_h + h];
+                        BlocksObjectBoard[drag_v, (drag_h + h) - 1].transform.position = new Vector3(initpos.x + Block_distance * (h - 1), GenerateInitPos.transform.position.y - Block_distance * drag_v, 0);//画面座標変更
+
+                        Debug.Log("移動完了");
+                    }
+                    else if (CalculationBoard[drag_v, drag_h + h] == 3)
+                    {
+
+                        Debug.Log(drag_v + "," + (drag_h + h) + "を選択中");
+                        CalcBlock calcBlock = calcBlocksBoard[drag_v, drag_h + h].GetComponent<CalcBlock>();
+
+                        //内部情報の変更
+                        calcBlock.horizontal = calcBlock.horizontal - 1;//内部スクリプトの座標変数変更
+                        BlocksObjectBoard[drag_v, (drag_h + h) - 1] = BlocksObjectBoard[drag_v, drag_h + h];
+                        CalculationBoard[drag_v, (drag_h + h) - 1] = CalculationBoard[drag_v, drag_h + h];
+                        BlocksObjectBoard[drag_v, (drag_h + h) - 1].transform.position = new Vector3(initpos.x + Block_distance * (h - 1), GenerateInitPos.transform.position.y - Block_distance * drag_v, 0);//画面座標変更
+
+                        Debug.Log("移動完了");
+
+                    }
+                    else
+                    {
+                        Debug.Log("マスに何も入っていません");
+                    }
+                }
+                BlocksObjectBoard[drag_v, CalculationBoard.GetLength(1) - 1] = null;
+                AddBlockBoard("left", drag_v, drag_h, objecttype);
+                break;
+            case "right":
+                Debug.Log(drag_h + "個選択");
+                Destroy(BlocksObjectBoard[drag_v, drag_h]);
+                for (int h = 1; h <= drag_h; h++)
+                {
+                    if (CalculationBoard[drag_v, drag_h - h] == 1 || CalculationBoard[drag_v, drag_h - h] == 2)
+                    {
+
+                        Debug.Log(drag_v + "," + (drag_h - h) + "を選択中");
+                        PlayerBlock playerBlock = playerBlocksBoard[drag_v, drag_h - h].GetComponent<PlayerBlock>();//内部情報の変更
+                        playerBlock.horizontal = playerBlock.horizontal + 1;//内部スクリプトの座標変数変更
+                        BlocksObjectBoard[drag_v, (drag_h - h) + 1] = BlocksObjectBoard[drag_v, drag_h - h];
+                        CalculationBoard[drag_v, (drag_h - h) + 1] = CalculationBoard[drag_v, drag_h - h];
+                        BlocksObjectBoard[drag_v, (drag_h - h) + 1].transform.position = new Vector3(initpos.x + Block_distance * (1 - h), GenerateInitPos.transform.position.y - Block_distance * drag_v, 0);//画面座標変更
+
+                        Debug.Log("移動完了");
+                    }
+                    else if (CalculationBoard[drag_v, drag_h - h] == 3)
+                    {
+                        Debug.Log(drag_v + "," + (drag_h - h) + "を選択中");
+                        CalcBlock calcBlock = calcBlocksBoard[drag_v, drag_h - h].GetComponent<CalcBlock>();
+                        //内部情報の変更
+                        calcBlock.horizontal = calcBlock.horizontal + 1;//内部スクリプトの座標変数変更
+                        BlocksObjectBoard[drag_v, (drag_h - h) + 1] = BlocksObjectBoard[drag_v, drag_h - h];
+                        CalculationBoard[drag_v, (drag_h - h) + 1] = CalculationBoard[drag_v, drag_h - h];
+                        BlocksObjectBoard[drag_v, (drag_h - h) + 1].transform.position = new Vector3(initpos.x + Block_distance * (1 - h), GenerateInitPos.transform.position.y - Block_distance * drag_v, 0);//画面座標変更
+
+                        Debug.Log("移動完了");
+
+                    }
+                    else
+                    {
+                        Debug.Log("マスに何も入っていません");
+                    }
+
+                }
+
+                BlocksObjectBoard[drag_v, 0] = null;
+                AddBlockBoard("right", drag_v, drag_h, objecttype);
+
+                break;
+
+        }
+    }
+
+
+    void PlayerCalcAddBlocksBoard(string vec, int v, int h, int type)//空いたマスにブロックを生成する
+    {
+        switch (vec)
+        {
+            case "up":
+
+                Debug.Log("上方向");
+                for (int var = 0; var < CalculationBoard.GetLength(0); var++)
+                {
+
+                    if (BlocksObjectBoard[var, h] == null)
+                    {
+
+                        Debug.Log("オブジェクトを生成します" + var + "," + h);
+                        if (type == 1)
+                        {
+                            CalculationBoard[var, h] = 1;
+                            BlocksObjectBoard[var, h] = Instantiate(Blocks[1], new Vector3(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * var, 0)
+                            , Quaternion.identity, BlocksParent.transform);
+                            playerBlocksBoard[var, h] = BlocksObjectBoard[var, h].GetComponent<PlayerBlock>();
+                            BlocksImages[var, h] = playerBlocksBoard[var, h].Highlightimage;
+                            playerBlocksBoard[var, h].vertical = var;
+                            playerBlocksBoard[var, h].horizontal = h;
+                            playerBlocksBoard[var, h].AssignNum();
+                        }
+                        else if (type == 2)
+                        {
+                            CalculationBoard[var, h] = 2;
+                            BlocksObjectBoard[var, h] = Instantiate(Blocks[2], new Vector3(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * var, 0)
+                            , Quaternion.identity, BlocksParent.transform);
+                            playerBlocksBoard[var, h] = BlocksObjectBoard[var, h].GetComponent<PlayerBlock>();
+                            BlocksImages[var, h] = playerBlocksBoard[var, h].Highlightimage;
+                            playerBlocksBoard[var, h].vertical = var;
+                            playerBlocksBoard[var, h].horizontal = h;
+                            playerBlocksBoard[var, h].AssignNum();
+                        }
+                        else if (type == 3)
+                        {
+                            CalculationBoard[var, h] = 3;
+                            BlocksObjectBoard[var, h] = Instantiate(Blocks[3], new Vector3(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * var, 0)
+                            , Quaternion.identity, BlocksParent.transform);
+                            calcBlocksBoard[var, h] = BlocksObjectBoard[var, h].GetComponent<CalcBlock>();
+                            BlocksImages[var, h] = calcBlocksBoard[var, h].Highlightimage;
+                            calcBlocksBoard[var, h].vertical = var;
+                            calcBlocksBoard[var, h].horizontal = h;
+                            calcBlocksBoard[var, h].AssignColc();
+                        }
+                        else
+                        {
+                            Debug.LogError("不明なタイプの引数です");
+                        }
+
+
+                    }
+                    else
+                    {
+                        Debug.Log("オブジェクトは存在します" + var + "," + h);
+                    }
+                }
+                break;
+            case "down":
+                Debug.Log("下方向");
+                for (int var = 0; var < CalculationBoard.GetLength(0); var++)
+                {
+                    if (BlocksObjectBoard[var, h] == null)
+                    {
+                        Debug.Log("オブジェクトを生成します" + var + "," + h);
+                        if (type == 1)
+                        {
+                            CalculationBoard[var, h] = 1;
+                            BlocksObjectBoard[var, h] = Instantiate(Blocks[1], new Vector3(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * var, 0)
+                            , Quaternion.identity, BlocksParent.transform);
+                            playerBlocksBoard[var, h] = BlocksObjectBoard[var, h].GetComponent<PlayerBlock>();
+                            BlocksImages[var, h] = playerBlocksBoard[var, h].Highlightimage;
+                            playerBlocksBoard[var, h].vertical = var;
+                            playerBlocksBoard[var, h].horizontal = h;
+                            playerBlocksBoard[var, h].AssignNum();
+                        }
+                        else if (type == 2)
+                        {
+                            CalculationBoard[var, h] = 2;
+                            BlocksObjectBoard[var, h] = Instantiate(Blocks[2], new Vector3(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * var, 0)
+                            , Quaternion.identity, BlocksParent.transform);
+                            playerBlocksBoard[var, h] = BlocksObjectBoard[var, h].GetComponent<PlayerBlock>();
+                            BlocksImages[var, h] = playerBlocksBoard[var, h].Highlightimage;
+                            playerBlocksBoard[var, h].vertical = var;
+                            playerBlocksBoard[var, h].horizontal = h;
+                            playerBlocksBoard[var, h].AssignNum();
+                        }
+                        else if (type == 3)
+                        {
+                            CalculationBoard[var, h] = 3;
+                            BlocksObjectBoard[var, h] = Instantiate(Blocks[3], new Vector3(GenerateInitPos.transform.position.x + Block_distance * h, GenerateInitPos.transform.position.y - Block_distance * var, 0)
+                            , Quaternion.identity, BlocksParent.transform);
+                            calcBlocksBoard[var, h] = BlocksObjectBoard[var, h].GetComponent<CalcBlock>();
+                            BlocksImages[var, h] = calcBlocksBoard[var, h].Highlightimage;
+                            calcBlocksBoard[var, h].vertical = var;
+                            calcBlocksBoard[var, h].horizontal = h;
+                            calcBlocksBoard[var, h].AssignColc();
+                        }
+                        else
+                        {
+                            Debug.LogError("不明なタイプの引数です");
+                        }
+
+
+                    }
+                }
+                break;
+
+            case "left":
+                Debug.Log("左方向");
+                for (int hor = 0; hor < CalculationBoard.GetLength(1); hor++)
+                {
+                    if (BlocksObjectBoard[v, hor] == null)
+                    {
+                        Debug.Log("オブジェクトを生成します" + v + "," + hor);
+                        if (type == 1)
+                        {
+                            CalculationBoard[v, hor] = 1;
+                            BlocksObjectBoard[v, hor] = Instantiate(Blocks[1], new Vector3(GenerateInitPos.transform.position.x + Block_distance * hor, GenerateInitPos.transform.position.y - Block_distance * v, 0)
+                            , Quaternion.identity, BlocksParent.transform);
+                            playerBlocksBoard[v, hor] = BlocksObjectBoard[v, hor].GetComponent<PlayerBlock>();
+                            BlocksImages[v, hor] = playerBlocksBoard[v, hor].Highlightimage;
+                            playerBlocksBoard[v, hor].vertical = v;
+                            playerBlocksBoard[v, hor].horizontal = h;
+                            playerBlocksBoard[v, hor].AssignNum();
+                        }
+                        else if (type == 2)
+                        {
+                            CalculationBoard[v, hor] = 2;
+                            BlocksObjectBoard[v, hor] = Instantiate(Blocks[2], new Vector3(GenerateInitPos.transform.position.x + Block_distance * hor, GenerateInitPos.transform.position.y - Block_distance * v, 0)
+                            , Quaternion.identity, BlocksParent.transform);
+                            playerBlocksBoard[v, hor] = BlocksObjectBoard[v, hor].GetComponent<PlayerBlock>();
+                            BlocksImages[v, hor] = playerBlocksBoard[v, hor].Highlightimage;
+                            playerBlocksBoard[v, hor].vertical = v;
+                            playerBlocksBoard[v, hor].horizontal = hor;
+                            playerBlocksBoard[v, hor].AssignNum();
+                        }
+                        else if (type == 3)
+                        {
+                            CalculationBoard[v, hor] = 3;
+                            BlocksObjectBoard[v, hor] = Instantiate(Blocks[3], new Vector3(GenerateInitPos.transform.position.x + Block_distance * hor, GenerateInitPos.transform.position.y - Block_distance * v, 0)
+                            , Quaternion.identity, BlocksParent.transform);
+                            calcBlocksBoard[v, hor] = BlocksObjectBoard[v, hor].GetComponent<CalcBlock>();
+                            BlocksImages[v, hor] = calcBlocksBoard[v, hor].Highlightimage;
+                            calcBlocksBoard[v, hor].vertical = v;
+                            calcBlocksBoard[v, hor].horizontal = hor;
+                            calcBlocksBoard[v, hor].AssignColc();
+                        }
+                        else
+                        {
+                            Debug.LogError("不明なタイプの引数です");
+                        }
+                    }
+                }
+                break;
+            case "right":
+                Debug.Log("右方向");
+                for (int hor = 0; hor < CalculationBoard.GetLength(1); hor++)
+                {
+                    if (BlocksObjectBoard[v, hor] == null)
+                    {
+                        Debug.Log("オブジェクトを生成します" + v + "," + hor);
+                        if (type == 1)
+                        {
+                            CalculationBoard[v, hor] = 1;
+                            BlocksObjectBoard[v, hor] = Instantiate(Blocks[1], new Vector3(GenerateInitPos.transform.position.x + Block_distance * hor, GenerateInitPos.transform.position.y - Block_distance * v, 0)
+                            , Quaternion.identity, BlocksParent.transform);
+                            playerBlocksBoard[v, hor] = BlocksObjectBoard[v, hor].GetComponent<PlayerBlock>();
+                            BlocksImages[v, hor] = playerBlocksBoard[v, hor].Highlightimage;
+                            playerBlocksBoard[v, hor].vertical = v;
+                            playerBlocksBoard[v, hor].horizontal = h;
+                            playerBlocksBoard[v, hor].AssignNum();
+                        }
+                        else if (type == 2)
+                        {
+                            CalculationBoard[v, hor] = 2;
+                            BlocksObjectBoard[v, hor] = Instantiate(Blocks[2], new Vector3(GenerateInitPos.transform.position.x + Block_distance * hor, GenerateInitPos.transform.position.y - Block_distance * v, 0)
+                            , Quaternion.identity, BlocksParent.transform);
+                            playerBlocksBoard[v, hor] = BlocksObjectBoard[v, hor].GetComponent<PlayerBlock>();
+                            BlocksImages[v, hor] = playerBlocksBoard[v, hor].Highlightimage;
+                            playerBlocksBoard[v, hor].vertical = v;
+                            playerBlocksBoard[v, hor].horizontal = hor;
+                            playerBlocksBoard[v, hor].AssignNum();
+                        }
+                        else if (type == 3)
+                        {
+                            CalculationBoard[v, hor] = 3;
+                            BlocksObjectBoard[v, hor] = Instantiate(Blocks[3], new Vector3(GenerateInitPos.transform.position.x + Block_distance * hor, GenerateInitPos.transform.position.y - Block_distance * v, 0)
+                            , Quaternion.identity, BlocksParent.transform);
+                            calcBlocksBoard[v, hor] = BlocksObjectBoard[v, hor].GetComponent<CalcBlock>();
+                            BlocksImages[v, hor] = calcBlocksBoard[v, hor].Highlightimage;
+                            calcBlocksBoard[v, hor].vertical = v;
+                            calcBlocksBoard[v, hor].horizontal = hor;
+                            calcBlocksBoard[v, hor].AssignColc();
+                        }
+                        else
+                        {
+                            Debug.LogError("不明なタイプの引数です");
+                        }
+                    }
+                }
+                break;
+
+        }
+    }
 
     //ターゲットUI関連
     public void ResetTarget(int v,int h)
     {
-        
         //上
         if (v > 0)
         {
