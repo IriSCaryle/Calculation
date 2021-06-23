@@ -271,25 +271,25 @@ public class CalcBlock : MonoBehaviour, IDropHandler ,IDragHandler,IEndDragHandl
     {
        
         //右
-        if (data.delta.x >10 &&right)
+        if (data.delta.x >5 &&right)
         {
 
             main.ResetTarget(vertical, horizontal);
             main.SetTarget(vertical, horizontal, "Right");
 
-        }else if(data.delta.x <-10 && left)//左
+        }else if(data.delta.x <-5 && left)//左
         {
 
             main.ResetTarget(vertical, horizontal);
             main.SetTarget(vertical, horizontal, "Left");
         }
         //上
-        if (data.delta.y >10 && up)
+        if (data.delta.y >5 && up)
         {
             main.ResetTarget(vertical, horizontal);
             main.SetTarget(vertical, horizontal, "Up");
         }
-        else if (data.delta.y < -10 && down)//下
+        else if (data.delta.y < -5 && down)//下
         {
 
             main.ResetTarget(vertical, horizontal);

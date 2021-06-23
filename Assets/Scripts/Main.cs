@@ -24,6 +24,7 @@ public class Main : MonoBehaviour
     [SerializeField] ScoreManager player1scoreSc;
     [SerializeField] ScoreManager player2scoreSc;
 
+    public Turn playerTurn;
     //各ボード
     int[,] CalculationBoard = new int[6, 6] //ブロックの種類のボード(int)
     {
@@ -63,6 +64,8 @@ public class Main : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Application.targetFrameRate = 60;
+
         GenerateBlocks();
     }
 
@@ -159,6 +162,22 @@ public class Main : MonoBehaviour
 
         NowBoard();
 
+        int random = 0;
+
+        random = Random.Range(1, 3);
+
+        switch (random)
+        {
+            case 1:
+                playerTurn = Turn.Player1;
+                break;
+            case 2:
+                playerTurn = Turn.Player2;
+                break;
+            default:
+                Debug.LogError("ターンを設定できません、指定した数字に例外が発生しました");
+                break;
+        }
 
     }
    
@@ -1027,7 +1046,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[v, hor] = BlocksObjectBoard[v, hor].GetComponent<PlayerBlock>();
                             BlocksImages[v, hor] = playerBlocksBoard[v, hor].Highlightimage;
                             playerBlocksBoard[v, hor].vertical = v;
-                            playerBlocksBoard[v, hor].horizontal = h;
+                            playerBlocksBoard[v, hor].horizontal = hor;
                             playerBlocksBoard[v, hor].AssignNum();
                         }
                         else if (type == 2)
@@ -1074,7 +1093,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[v, hor] = BlocksObjectBoard[v, hor].GetComponent<PlayerBlock>();
                             BlocksImages[v, hor] = playerBlocksBoard[v, hor].Highlightimage;
                             playerBlocksBoard[v, hor].vertical = v;
-                            playerBlocksBoard[v, hor].horizontal = h;
+                            playerBlocksBoard[v, hor].horizontal = hor;
                             playerBlocksBoard[v, hor].AssignNum();
                         }
                         else if (type == 2)
@@ -1539,7 +1558,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[v, hor] = BlocksObjectBoard[v, hor].GetComponent<PlayerBlock>();
                             BlocksImages[v, hor] = playerBlocksBoard[v, hor].Highlightimage;
                             playerBlocksBoard[v, hor].vertical = v;
-                            playerBlocksBoard[v, hor].horizontal = h;
+                            playerBlocksBoard[v, hor].horizontal = hor;
                             playerBlocksBoard[v, hor].AssignNum();
                             isputted = true;
                         }
@@ -1575,7 +1594,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[v, hor] = BlocksObjectBoard[v, hor].GetComponent<PlayerBlock>();
                             BlocksImages[v, hor] = playerBlocksBoard[v, hor].Highlightimage;
                             playerBlocksBoard[v, hor].vertical = v;
-                            playerBlocksBoard[v, hor].horizontal = h;
+                            playerBlocksBoard[v, hor].horizontal = hor;
                             playerBlocksBoard[v, hor].AssignNum();
                             isputted = false;
                         }
@@ -1627,7 +1646,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[v, hor] = BlocksObjectBoard[v, hor].GetComponent<PlayerBlock>();
                             BlocksImages[v, hor] = playerBlocksBoard[v, hor].Highlightimage;
                             playerBlocksBoard[v, hor].vertical = v;
-                            playerBlocksBoard[v, hor].horizontal = h;
+                            playerBlocksBoard[v, hor].horizontal = hor;
                             playerBlocksBoard[v, hor].AssignNum();
                             isputted = true;
                         }
@@ -1663,7 +1682,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[v, hor] = BlocksObjectBoard[v, hor].GetComponent<PlayerBlock>();
                             BlocksImages[v, hor] = playerBlocksBoard[v, hor].Highlightimage;
                             playerBlocksBoard[v, hor].vertical = v;
-                            playerBlocksBoard[v, hor].horizontal = h;
+                            playerBlocksBoard[v, hor].horizontal = hor;
                             playerBlocksBoard[v, hor].AssignNum();
                             isputted = false;
                         }
