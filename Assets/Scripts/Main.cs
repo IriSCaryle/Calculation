@@ -945,6 +945,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[var, h].vertical = var;
                             playerBlocksBoard[var, h].horizontal = h;
                             playerBlocksBoard[var, h].AssignNum();
+                            ChangeTurn();
                         }
                         else if (type == 2)
                         {
@@ -956,6 +957,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[var, h].vertical = var;
                             playerBlocksBoard[var, h].horizontal = h;
                             playerBlocksBoard[var, h].AssignNum();
+                            ChangeTurn();
                         }
                         else if(type ==3)
                         {
@@ -967,6 +969,7 @@ public class Main : MonoBehaviour
                             calcBlocksBoard[var, h].vertical = var;
                             calcBlocksBoard[var, h].horizontal = h;
                             calcBlocksBoard[var, h].AssignColc();
+                            ChangeTurn();
                         }
                         else
                         {
@@ -998,6 +1001,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[var, h].vertical = var;
                             playerBlocksBoard[var, h].horizontal = h;
                             playerBlocksBoard[var, h].AssignNum();
+                            ChangeTurn();
                         }
                         else if (type == 2)
                         {
@@ -1009,6 +1013,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[var, h].vertical = var;
                             playerBlocksBoard[var, h].horizontal = h;
                             playerBlocksBoard[var, h].AssignNum();
+                            ChangeTurn();
                         }
                         else if (type == 3)
                         {
@@ -1020,6 +1025,7 @@ public class Main : MonoBehaviour
                             calcBlocksBoard[var, h].vertical = var;
                             calcBlocksBoard[var, h].horizontal = h;
                             calcBlocksBoard[var, h].AssignColc();
+                            ChangeTurn();
                         }
                         else
                         {
@@ -1048,6 +1054,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[v, hor].vertical = v;
                             playerBlocksBoard[v, hor].horizontal = hor;
                             playerBlocksBoard[v, hor].AssignNum();
+                            ChangeTurn();
                         }
                         else if (type == 2)
                         {
@@ -1059,6 +1066,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[v, hor].vertical = v;
                             playerBlocksBoard[v, hor].horizontal = hor;
                             playerBlocksBoard[v, hor].AssignNum();
+                            ChangeTurn();
                         }
                         else if (type == 3)
                         {
@@ -1070,6 +1078,7 @@ public class Main : MonoBehaviour
                             calcBlocksBoard[v, hor].vertical = v;
                             calcBlocksBoard[v, hor].horizontal = hor;
                             calcBlocksBoard[v, hor].AssignColc();
+                            ChangeTurn();
                         }
                         else
                         {
@@ -1095,6 +1104,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[v, hor].vertical = v;
                             playerBlocksBoard[v, hor].horizontal = hor;
                             playerBlocksBoard[v, hor].AssignNum();
+                            ChangeTurn();
                         }
                         else if (type == 2)
                         {
@@ -1106,6 +1116,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[v, hor].vertical = v;
                             playerBlocksBoard[v, hor].horizontal = hor;
                             playerBlocksBoard[v, hor].AssignNum();
+                            ChangeTurn();
                         }
                         else if (type == 3)
                         {
@@ -1117,6 +1128,7 @@ public class Main : MonoBehaviour
                             calcBlocksBoard[v, hor].vertical = v;
                             calcBlocksBoard[v, hor].horizontal = hor;
                             calcBlocksBoard[v, hor].AssignColc();
+                            ChangeTurn();
                         }
                         else
                         {
@@ -1380,6 +1392,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[var, h].horizontal = h;
                             playerBlocksBoard[var, h].AssignNum();
                             isputted = true;
+                            
                         }
                         else if (type1 == 2 && isputted == false)
                         {
@@ -1416,6 +1429,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[var, h].horizontal = h;
                             playerBlocksBoard[var, h].AssignNum();
                             isputted = false;
+                            ChangeTurn();
                         }
                         else if (type2 == 2 && isputted == true)
                         {
@@ -1428,6 +1442,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[var, h].horizontal = h;
                             playerBlocksBoard[var, h].AssignNum();
                             isputted = false;
+                            ChangeTurn();
                         }
                         else if (type2 == 3 && isputted == true)
                         {
@@ -1440,6 +1455,7 @@ public class Main : MonoBehaviour
                             calcBlocksBoard[var, h].horizontal = h;
                             calcBlocksBoard[var, h].AssignColc();
                             isputted = false;
+                            ChangeTurn();
                         }
                         else
                         {
@@ -1508,6 +1524,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[var, h].horizontal = h;
                             playerBlocksBoard[var, h].AssignNum();
                             isputted = false;
+                            ChangeTurn();
                         }
                         else if (type2 == 2 && isputted == true)
                         {
@@ -1520,6 +1537,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[var, h].horizontal = h;
                             playerBlocksBoard[var, h].AssignNum();
                             isputted = false;
+                            ChangeTurn();
                         }
                         else if (type2 == 3 && isputted == true)
                         {
@@ -1532,6 +1550,7 @@ public class Main : MonoBehaviour
                             calcBlocksBoard[var, h].horizontal = h;
                             calcBlocksBoard[var, h].AssignColc();
                             isputted = false;
+                            ChangeTurn();
                         }
                         else
                         {
@@ -1561,6 +1580,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[v, hor].horizontal = hor;
                             playerBlocksBoard[v, hor].AssignNum();
                             isputted = true;
+
                         }
                         else if (type1 == 2 && isputted == false)
                         {
@@ -1597,6 +1617,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[v, hor].horizontal = hor;
                             playerBlocksBoard[v, hor].AssignNum();
                             isputted = false;
+                            ChangeTurn();
                         }
                         else if (type2 == 2 && isputted == true)
                         {
@@ -1609,6 +1630,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[v, hor].horizontal = hor;
                             playerBlocksBoard[v, hor].AssignNum();
                             isputted = false;
+                            ChangeTurn();
                         }
                         else if (type2 == 3 && isputted == true)
                         {
@@ -1621,6 +1643,7 @@ public class Main : MonoBehaviour
                             calcBlocksBoard[v, hor].horizontal = hor;
                             calcBlocksBoard[v, hor].AssignColc();
                             isputted = false;
+                            ChangeTurn();
                         }
                         else
                         {
@@ -1685,6 +1708,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[v, hor].horizontal = hor;
                             playerBlocksBoard[v, hor].AssignNum();
                             isputted = false;
+                            ChangeTurn();
                         }
                         else if (type2 == 2 && isputted == true)
                         {
@@ -1697,6 +1721,7 @@ public class Main : MonoBehaviour
                             playerBlocksBoard[v, hor].horizontal = hor;
                             playerBlocksBoard[v, hor].AssignNum();
                             isputted = false;
+                            ChangeTurn();
                         }
                         else if (type2 == 3 && isputted == true)
                         {
@@ -1709,6 +1734,7 @@ public class Main : MonoBehaviour
                             calcBlocksBoard[v, hor].horizontal = hor;
                             calcBlocksBoard[v, hor].AssignColc();
                             isputted = false;
+                            ChangeTurn();
                         }
                         else
                         {
@@ -1719,6 +1745,27 @@ public class Main : MonoBehaviour
                 break;
 
         }
+    }
+
+
+
+
+    void ChangeTurn()
+    {
+        switch (playerTurn)
+        {
+            case Turn.Player1:
+
+                playerTurn = Turn.Player2;
+
+                break;
+            case Turn.Player2:
+
+                playerTurn = Turn.Player1;
+
+                break;
+        }
+
     }
 
     //ターゲットUI関連
