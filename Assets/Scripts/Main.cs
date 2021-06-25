@@ -45,12 +45,17 @@ public class Main : MonoBehaviour
 
     CalcBlock[,] calcBlocksBoard = new CalcBlock[6, 6];//演算子ブロックスクリプトのボード
 
+
+
+    [SerializeField] AudioClip PointUp;
+    [SerializeField] AudioClip PointDown;
+
+    [SerializeField] AudioSource SEaudioSource;
+
     public enum Turn//ターン
     {
         Player1 = 1,
         Player2 = 2,
-
-
     }
 
 
@@ -69,8 +74,6 @@ public class Main : MonoBehaviour
         GenerateBlocks();
     }
 
-
-   
     void GenerateBlocks() //ブロックの生成
     {
         int player1block = 0;
@@ -91,8 +94,6 @@ public class Main : MonoBehaviour
             for (int h = 0; h < CalculationBoard.GetLength(1); h++)
             {
                 int rand = Random.Range(0, randnum.Count);
-
-
 
                 switch (randnum[rand])
                 {
@@ -694,12 +695,36 @@ public class Main : MonoBehaviour
             case 1://player1
                 score += Player1Score;
                 Player1Score = score;
+
+                if(score < 0)
+                {
+                    SEaudioSource.clip = PointDown;
+                    SEaudioSource.Play();
+                }
+                else
+                {
+                    SEaudioSource.clip = PointUp;
+                    SEaudioSource.Play();
+                }
+
                 player1scoreSc.AddScore(score);
                 break;
 
             case 2://player2
                 score += Player2Score;
                 Player2Score = score;
+
+                if (score < 0)
+                {
+                    SEaudioSource.clip = PointDown;
+                    SEaudioSource.Play();
+                }
+                else
+                {
+                    SEaudioSource.clip = PointUp;
+                    SEaudioSource.Play();
+                }
+
                 player2scoreSc.AddScore(score);
                 break;
         }
@@ -1746,9 +1771,6 @@ public class Main : MonoBehaviour
 
         }
     }
-
-
-
 
     void ChangeTurn()
     {

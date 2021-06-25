@@ -53,7 +53,7 @@ public class NumberToSprite : MonoBehaviour
         {
             time_image[i] = Instantiate(
                 time_box,
-                new Vector3(i * -10, 0, 0),//位置は適当なので調整お願い
+                new Vector3((i * -100)+400, time_object.transform.position.y, 0),//位置は適当なので調整お願い
                 Quaternion.identity,
                 time_object.transform
                 );
