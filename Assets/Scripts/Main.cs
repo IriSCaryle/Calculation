@@ -54,6 +54,9 @@ public class Main : MonoBehaviour
 
 
     [SerializeField] Animator Readyanimator;
+
+
+ 
     public enum Turn//ターン
     {
         Player1 = 1,

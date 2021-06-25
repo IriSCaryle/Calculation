@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/GenerateClassScene.unity
     guid: 98353c8706c1a9b48a3895292ca59a2e
-  - enabled: 0
+  - enabled: 1
+    path: Assets/Scenes/title.unity
+    guid: 024a343ce8f907e4d9ec976e91b2ba1f
+  - enabled: 1
     path: Assets/Scenes/GameScene_forAndroid.unity
     guid: 2af4bf0b3a333474189d3b453443c941
   - enabled: 1

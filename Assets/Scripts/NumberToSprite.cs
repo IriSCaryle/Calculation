@@ -30,8 +30,11 @@ public class NumberToSprite : MonoBehaviour
 
     [SerializeField] Animator FinishAnim;
 
+    [SerializeField] GameObject Num001Pos;
+    [SerializeField] GameObject Num010Pos;
+    [SerializeField] GameObject Num100Pos;
+    [SerializeField] GameObject Num1000Pos;
 
-    bool isFinishGame;
     public int Digit(int num)
     {
         return (num == 0) ? 1 : ((int)Mathf.Log10(num) + 1);//nowtimeの桁数を取得
@@ -55,7 +58,7 @@ public class NumberToSprite : MonoBehaviour
     private void Awake()
     {
         FinishOverray.SetActive(false);
-        isFinishGame = true;
+      
     }
     void Start()
     {
@@ -70,7 +73,7 @@ public class NumberToSprite : MonoBehaviour
                 case 0:
                     time_image[i] = Instantiate(
                     time_box,
-                    new Vector3(375, time_object.transform.position.y, 0),//位置は適当なので調整お願い
+                    new Vector3(Num001Pos.transform.position.x, time_object.transform.position.y, 0),//位置は適当なので調整お願い
                     Quaternion.identity,
                     time_object.transform
                     );
@@ -81,7 +84,7 @@ public class NumberToSprite : MonoBehaviour
                 case 1:
                     time_image[i] = Instantiate(
                     time_box,
-                    new Vector3(325, time_object.transform.position.y, 0),//位置は適当なので調整お願い
+                    new Vector3(Num010Pos.transform.position.x, time_object.transform.position.y, 0),//位置は適当なので調整お願い
                     Quaternion.identity,
                     time_object.transform
                     );
@@ -92,7 +95,7 @@ public class NumberToSprite : MonoBehaviour
                 case 2:
                     time_image[i] = Instantiate(
                     time_box,
-                    new Vector3(225, time_object.transform.position.y, 0),//位置は適当なので調整お願い
+                    new Vector3(Num100Pos.transform.position.x, time_object.transform.position.y, 0),//位置は適当なので調整お願い
                     Quaternion.identity,
                     time_object.transform
                     );
@@ -103,7 +106,7 @@ public class NumberToSprite : MonoBehaviour
                 case 3:
                     time_image[i] = Instantiate(
                     time_box,
-                    new Vector3(125, time_object.transform.position.y, 0),//位置は適当なので調整お願い
+                    new Vector3(Num1000Pos.transform.position.x, time_object.transform.position.y, 0),//位置は適当なので調整お願い
                     Quaternion.identity,
                     time_object.transform
                     );
@@ -128,13 +131,7 @@ public class NumberToSprite : MonoBehaviour
         timecount += Time.deltaTime;//1秒ごとに判定
         if (timecount >= 1) CountCange();
 
-        if (isFinishGame)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                //タイトルに戻る
-            }
-        }
+      
     }
 
     void CountCange()
@@ -167,7 +164,7 @@ public class NumberToSprite : MonoBehaviour
         FinishOverray.SetActive(true);
         FinishAnim.SetTrigger("Finish");
 
-        isFinishGame = true;
+     
     }
 
     void InstSplite()
@@ -188,5 +185,10 @@ public class NumberToSprite : MonoBehaviour
             time_spriteR[i].sprite = sprite_time[numsec];
         }
         timecount = 0;
+    }
+
+    public void OnClickFinishButton()
+    {
+        SceneManager.LoadScene("title");
     }
 }
