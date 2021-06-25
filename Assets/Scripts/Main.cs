@@ -18,8 +18,8 @@ public class Main : MonoBehaviour
 
     //スコア関連
     [Header("プレイヤースコア(数字)")]
-    [SerializeField] int Player1Score;
-    [SerializeField] int Player2Score;
+    public int Player1Score;
+    public int Player2Score;
     [Header("プレイヤースコア(スクリプト)")]
     [SerializeField] ScoreManager player1scoreSc;
     [SerializeField] ScoreManager player2scoreSc;
@@ -52,6 +52,8 @@ public class Main : MonoBehaviour
 
     [SerializeField] AudioSource SEaudioSource;
 
+
+    [SerializeField] Animator Readyanimator;
     public enum Turn//ターン
     {
         Player1 = 1,
@@ -72,6 +74,8 @@ public class Main : MonoBehaviour
         Application.targetFrameRate = 60;
 
         GenerateBlocks();
+
+        Readyanimator.SetTrigger("Start");
     }
 
     void GenerateBlocks() //ブロックの生成

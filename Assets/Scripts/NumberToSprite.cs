@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class NumberToSprite : MonoBehaviour
 {
@@ -23,6 +24,14 @@ public class NumberToSprite : MonoBehaviour
 
     public bool countPermit = true;
 
+    [SerializeField] Main main;
+
+    [SerializeField] GameObject FinishOverray;
+
+    [SerializeField] Animator FinishAnim;
+
+
+    bool isFinishGame;
     public int Digit(int num)
     {
         return (num == 0) ? 1 : ((int)Mathf.Log10(num) + 1);//nowtimeの桁数を取得
@@ -43,6 +52,11 @@ public class NumberToSprite : MonoBehaviour
         countPermit = true;
     }
 
+    private void Awake()
+    {
+        FinishOverray.SetActive(false);
+        isFinishGame = true;
+    }
     void Start()
     {
         nowtime = startitme;
@@ -51,14 +65,59 @@ public class NumberToSprite : MonoBehaviour
 
         for (int i = 0; i < Digit(nowsec) + Digit (nowmin); i++)
         {
-            time_image[i] = Instantiate(
-                time_box,
-                new Vector3((i * -100)+400, time_object.transform.position.y, 0),//位置は適当なので調整お願い
-                Quaternion.identity,
-                time_object.transform
-                );
+            switch (i)
+            {
+                case 0:
+                    time_image[i] = Instantiate(
+                    time_box,
+                    new Vector3(375, time_object.transform.position.y, 0),//位置は適当なので調整お願い
+                    Quaternion.identity,
+                    time_object.transform
+                    );
 
-            time_spriteR[i] = time_image[i].GetComponent<Image>();
+                    time_spriteR[i] = time_image[i].GetComponent<Image>();
+
+                    break;
+                case 1:
+                    time_image[i] = Instantiate(
+                    time_box,
+                    new Vector3(325, time_object.transform.position.y, 0),//位置は適当なので調整お願い
+                    Quaternion.identity,
+                    time_object.transform
+                    );
+
+                    time_spriteR[i] = time_image[i].GetComponent<Image>();
+
+                    break;
+                case 2:
+                    time_image[i] = Instantiate(
+                    time_box,
+                    new Vector3(225, time_object.transform.position.y, 0),//位置は適当なので調整お願い
+                    Quaternion.identity,
+                    time_object.transform
+                    );
+
+                    time_spriteR[i] = time_image[i].GetComponent<Image>();
+
+                    break;
+                case 3:
+                    time_image[i] = Instantiate(
+                    time_box,
+                    new Vector3(125, time_object.transform.position.y, 0),//位置は適当なので調整お願い
+                    Quaternion.identity,
+                    time_object.transform
+                    );
+
+                    time_spriteR[i] = time_image[i].GetComponent<Image>();
+
+
+                    break;
+                default:
+
+                    Debug.LogError("タイマーの桁に異常があります");
+                    break;
+            }
+            
         }
         InstSplite();
     }
@@ -68,6 +127,14 @@ public class NumberToSprite : MonoBehaviour
         if (!countPermit) return;
         timecount += Time.deltaTime;//1秒ごとに判定
         if (timecount >= 1) CountCange();
+
+        if (isFinishGame)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                //タイトルに戻る
+            }
+        }
     }
 
     void CountCange()
@@ -77,7 +144,7 @@ public class NumberToSprite : MonoBehaviour
         beforesec = nowsec;
         if (nowsec <= 0)
         {
-            if (nowmin <= 0) return;
+            if (nowmin <= 0) Finish();
             if (BTDight(beforemin) + BTDight(beforesec) != Digit(nowmin) + Digit(nowsec))
             {
                 Destroy(time_image[BTDight(beforemin) + BTDight(beforesec) - 1]);//使い終えた桁を削除
@@ -89,6 +156,18 @@ public class NumberToSprite : MonoBehaviour
         //nowtime--;
 
         InstSplite();
+    }
+
+
+    void Finish()
+    {
+        nowsec = 0;
+        countPermit = false;
+        Debug.Log("終了");
+        FinishOverray.SetActive(true);
+        FinishAnim.SetTrigger("Finish");
+
+        isFinishGame = true;
     }
 
     void InstSplite()

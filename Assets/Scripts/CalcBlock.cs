@@ -60,7 +60,7 @@ public class CalcBlock : MonoBehaviour, IDropHandler ,IDragHandler,IEndDragHandl
     public void AssignColc()
     {
         int CalcRand = Random.Range(0,4);
-        int NumRand = Random.Range(-5,6);
+        int NumRand = Random.Range(-10,20);
 
         
         if(NumRand == 0)
