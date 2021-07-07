@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class ScoreManager : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -14,17 +13,12 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] CanvasRenderer[] Num100 = new CanvasRenderer[10];
     [SerializeField] CanvasRenderer[] Num10 = new CanvasRenderer[10];
     [SerializeField] CanvasRenderer[] Num1 = new CanvasRenderer[10];
-
     [SerializeField] CanvasRenderer Minus;
-
-
     [SerializeField] Main main;
     void Awake()
     {
         ResetNum();
     }
-
-
     void ResetNum()
     {
         for(int i = 1; i < Num1.Length; i++)
@@ -41,16 +35,13 @@ public class ScoreManager : MonoBehaviour
         }
         Minus.SetAlpha(0);
     }
-
     public void AddScore(int score)
     {
         int[] num = new int[] { 0,0,0,0,0,0,0,0,0};
         int sum = 0;
         int length = 0;
         bool isminus=false;
-
       
-
         if(score < 0)
         {
             Debug.Log(score);
@@ -59,21 +50,16 @@ public class ScoreManager : MonoBehaviour
             isminus = true;
           
         }
-
-
         AllImageClear();
-
         while (0 < score)
         {
             Debug.Log("Length:" + length);
-
             sum = (score % 10);
             Debug.Log("num:" + sum);
             num[length] = sum;
             score = (score / 10);
             length++;
         }
-
         for(int tmp = 0; tmp < num.Length; tmp++)
         {
             Debug.Log(num[tmp]);
@@ -93,7 +79,6 @@ public class ScoreManager : MonoBehaviour
             Minus.SetAlpha(1);
         }
     }
-
     void AllImageClear()
     {
         for (int i = 0; i < Num1.Length; i++)
@@ -108,7 +93,6 @@ public class ScoreManager : MonoBehaviour
             Num10000000[i].SetAlpha(0);
             Num100000000[i].SetAlpha(0);
         }
-
         Minus.SetAlpha(0);
     }
 }

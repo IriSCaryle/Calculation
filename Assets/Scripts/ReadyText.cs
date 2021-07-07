@@ -12,14 +12,11 @@ public class ReadyText : MonoBehaviour
     {
         time.countPermit = false;
         Readytext.text = "Ready?";
-
     }
-
     public void ChangeText()
     {
         Readytext.text = "Go";
     }
-
     public void ReadyTextOff()
     {
         Readytext.gameObject.SetActive(false);

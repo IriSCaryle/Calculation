@@ -29,7 +29,6 @@ public class NumberToSprite : MonoBehaviour
     [SerializeField] GameObject FinishOverray;
 
     [SerializeField] Animator FinishAnim;
-
     [SerializeField] GameObject Num001Pos;
     [SerializeField] GameObject Num010Pos;
     [SerializeField] GameObject Num100Pos;
@@ -77,9 +76,7 @@ public class NumberToSprite : MonoBehaviour
                     Quaternion.identity,
                     time_object.transform
                     );
-
                     time_spriteR[i] = time_image[i].GetComponent<Image>();
-
                     break;
                 case 1:
                     time_image[i] = Instantiate(
@@ -88,9 +85,7 @@ public class NumberToSprite : MonoBehaviour
                     Quaternion.identity,
                     time_object.transform
                     );
-
                     time_spriteR[i] = time_image[i].GetComponent<Image>();
-
                     break;
                 case 2:
                     time_image[i] = Instantiate(
@@ -99,9 +94,7 @@ public class NumberToSprite : MonoBehaviour
                     Quaternion.identity,
                     time_object.transform
                     );
-
                     time_spriteR[i] = time_image[i].GetComponent<Image>();
-
                     break;
                 case 3:
                     time_image[i] = Instantiate(
@@ -110,13 +103,9 @@ public class NumberToSprite : MonoBehaviour
                     Quaternion.identity,
                     time_object.transform
                     );
-
                     time_spriteR[i] = time_image[i].GetComponent<Image>();
-
-
                     break;
                 default:
-
                     Debug.LogError("タイマーの桁に異常があります");
                     break;
             }
@@ -163,7 +152,6 @@ public class NumberToSprite : MonoBehaviour
         Debug.Log("終了");
         FinishOverray.SetActive(true);
         FinishAnim.SetTrigger("Finish");
-
      
     }
 

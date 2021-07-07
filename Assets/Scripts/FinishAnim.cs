@@ -12,10 +12,7 @@ public class FinishAnim : MonoBehaviour
     public void SetText()
     {
         p1score.text = main.Player1Score.ToString("N0");
-
         p2score.text = main.Player2Score.ToString("N0");
-
-
         if(main.Player1Score > main.Player2Score)
         {
             Judgetext.text = "Player1の勝ち!";

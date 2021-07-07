@@ -10,12 +10,12 @@ public class SceneCange : MonoBehaviour
     {
         Application.targetFrameRate = 60;
     }
-    public void SceneCange_main()
+    public void SceneCange_main()//シーン遷移
     {
-        if(Application.platform == RuntimePlatform.Android)
+        if(Application.platform == RuntimePlatform.Android)//Android版へ遷移
         {
             SceneManager.LoadScene("GameScene_forAndroid");
-        }else if(Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
+        }else if(Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)//PC版へ遷移
         {
             SceneManager.LoadScene("GameScene_forPC");
         }
